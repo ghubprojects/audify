@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "learn",
-    "slug": "learn",
+    "name": "audify",
+    "slug": "audify",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
