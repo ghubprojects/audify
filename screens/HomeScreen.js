@@ -1,13 +1,7 @@
-import {
-    Poppins_400Regular,
-    Poppins_500Medium,
-    Poppins_600SemiBold,
-    Poppins_700Bold,
-    useFonts
-} from '@expo-google-fonts/poppins';
-import { useNavigation } from '@react-navigation/native';
 import { Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
+import { BookList } from 'features';
+import { CategoryButton } from 'layouts/components';
 import TheHeader from 'layouts/components/TheHeader';
 
 import { StarFilledIcon, StarOutlinedIcon } from 'assets/icons/light';
@@ -19,6 +13,7 @@ import {
     recommendedBooks,
     trendings
 } from 'utils/homepage-data';
+import { Fonts } from 'utils/enum';
 
 const StarRating = ({ rating }) => {
     const starRatings = Math.floor(rating);
@@ -41,18 +36,7 @@ const StarRating = ({ rating }) => {
     return <View style={styles.starRatingContainer}>{renderStars()}</View>;
 };
 
-const HomeScreen = ({ navigation }) => {
-    const [fontsLoaded, fontError] = useFonts({
-        Poppins_400Regular,
-        Poppins_500Medium,
-        Poppins_600SemiBold,
-        Poppins_700Bold
-    });
-
-    if (!fontsLoaded && !fontError) {
-        return null;
-    }
-
+const HomeScreen = () => {
     return (
         <ScrollView style={styles.container}>
             <TheHeader style={styles.header} />
@@ -69,9 +53,11 @@ const HomeScreen = ({ navigation }) => {
 
                     <ScrollView horizontal contentContainerStyle={styles.contentContainer}>
                         {categories.map((category) => (
-                            <TouchableOpacity key={category.id} style={styles.category}>
-                                <Text style={styles.categoryName}>{category.name}</Text>
-                            </TouchableOpacity>
+                            <CategoryButton
+                                key={category.id}
+                                category={category}
+                                wrapList={false}
+                            />
                         ))}
                     </ScrollView>
                 </View>
@@ -86,7 +72,7 @@ const HomeScreen = ({ navigation }) => {
                     </View>
                     <ScrollView horizontal contentContainerStyle={styles.contentContainer}>
                         {recommendedBooks.map((book) => (
-                            <Image key={book.id} source={book.image} style={styles.poster} />
+                            <Image key={book.id} source={book.poster} style={styles.poster} />
                         ))}
                     </ScrollView>
                 </View>
@@ -102,7 +88,7 @@ const HomeScreen = ({ navigation }) => {
                     <ScrollView horizontal contentContainerStyle={styles.contentContainer}>
                         {bestSellers.map((book) => (
                             <View style={styles.bestItem} key={book.id}>
-                                <Image source={book.image} style={styles.bestImage} />
+                                <Image source={book.poster} style={styles.bestImage} />
                                 <View style={styles.bestDetails}>
                                     <View style={styles.titleAndAuthor}>
                                         <Text style={styles.title}>{book.title}</Text>
@@ -121,40 +107,10 @@ const HomeScreen = ({ navigation }) => {
                 </View>
 
                 {/* New Releases Section */}
-                <View>
-                    <View style={styles.titleContainer}>
-                        <Text style={styles.title}>New Releases</Text>
-                        <TouchableOpacity onPress={() => navigation.navigate('NewReleasesScreen')}>
-                            <Text style={styles.seeMore}>See more</Text>
-                        </TouchableOpacity>
-                    </View>
-                    <ScrollView horizontal contentContainerStyle={styles.contentContainer}>
-                        {newReleases.map((book) => (
-                            <View key={book.id} style={styles.releaseItem}>
-                                <Image source={book.image} style={styles.bestImage} />
-                                <Text style={styles.bottomTitle}>{book.title}</Text>
-                            </View>
-                        ))}
-                    </ScrollView>
-                </View>
+                <BookList title='New Releases' list={newReleases} />
 
                 {/* Trending Section */}
-                <View>
-                    <View style={styles.titleContainer}>
-                        <Text style={styles.title}>Trending Now</Text>
-                        <TouchableOpacity>
-                            <Text style={styles.seeMore}>See more</Text>
-                        </TouchableOpacity>
-                    </View>
-                    <ScrollView horizontal contentContainerStyle={styles.contentContainer}>
-                        {trendings.map((book) => (
-                            <View key={book.id} style={styles.trendingItem}>
-                                <Image source={book.image} style={styles.bestImage} />
-                                <Text style={styles.bottomTitle}>{book.title}</Text>
-                            </View>
-                        ))}
-                    </ScrollView>
-                </View>
+                <BookList title='Trending Now' list={trendings} />
             </View>
         </ScrollView>
     );
@@ -182,12 +138,12 @@ const styles = StyleSheet.create({
         marginBottom: 16
     },
     title: {
-        fontFamily: 'Poppins_600SemiBold',
+        fontFamily: Fonts.Poppins_600SemiBold,
         fontSize: 16,
         lineHeight: 24
     },
     seeMore: {
-        fontFamily: 'Poppins_500Medium',
+        fontFamily: Fonts.Poppins_500Medium,
         fontSize: 14,
         lineHeight: 20,
         color: primary[50]
@@ -197,21 +153,10 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         gap: 16
     },
-    category: {
-        paddingVertical: 8,
-        paddingHorizontal: 16,
-        borderRadius: 12,
-        backgroundColor: neutral[5]
-    },
-    categoryName: {
-        fontFamily: 'Poppins_400Regular',
-        fontSize: 16,
-        lineHeight: 24,
-        color: neutral[80]
-    },
     poster: {
         width: 200,
-        height: 300
+        height: 300,
+        borderRadius: 8
     },
 
     bestItem: {
@@ -240,7 +185,7 @@ const styles = StyleSheet.create({
         marginTop: 4
     },
     author: {
-        fontFamily: 'Poppins_400Regular',
+        fontFamily: Fonts.Poppins_400Regular,
         fontSize: 12,
         lineHeight: 18,
         color: neutral[60]
@@ -255,7 +200,7 @@ const styles = StyleSheet.create({
     bottomTitle: {
         width: 120,
         marginTop: 12,
-        fontFamily: 'Poppins_500Medium',
+        fontFamily: Fonts.Poppins_500Medium,
         fontSize: 16,
         lineHeight: 24,
         color: neutral[80]

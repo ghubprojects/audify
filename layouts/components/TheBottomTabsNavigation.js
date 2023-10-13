@@ -1,54 +1,16 @@
-import {
-    Poppins_400Regular,
-    Poppins_500Medium,
-    Poppins_600SemiBold,
-    Poppins_700Bold,
-    useFonts
-} from '@expo-google-fonts/poppins';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { StyleSheet, Text } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 
 import { HomeScreen, LibraryScreen, SearchScreen } from 'screens';
 
 import { HomeBoldIcon, LibraryBoldIcon, SearchBoldIcon } from 'assets/icons/bold';
 import { HomeLightIcon, LibraryLightIcon, SearchLightIcon } from 'assets/icons/light';
 import { neutral, primary } from 'styles/colors';
+import { Fonts } from 'utils/enum';
 
 const Tab = createBottomTabNavigator();
 
-const tabItems = [
-    {
-        name: 'Home',
-        lightIcon: <HomeLightIcon />,
-        boldIcon: <HomeBoldIcon />,
-        component: <HomeScreen />
-    },
-    {
-        name: 'Search',
-        lightIcon: <SearchLightIcon />,
-        boldIcon: <SearchBoldIcon />,
-        component: <SearchScreen />
-    },
-    {
-        name: 'Library',
-        lightIcon: <LibraryLightIcon />,
-        boldIcon: <LibraryBoldIcon />,
-        component: <LibraryScreen />
-    }
-];
-
 const TheBottomTabsNavigation = () => {
-    const [fontsLoaded, fontError] = useFonts({
-        Poppins_400Regular,
-        Poppins_500Medium,
-        Poppins_600SemiBold,
-        Poppins_700Bold
-    });
-
-    if (!fontsLoaded && !fontError) {
-        return null;
-    }
-
     return (
         <Tab.Navigator
             initialRouteName='Home'
@@ -65,7 +27,16 @@ const TheBottomTabsNavigation = () => {
                     tabBarLabel: ({ focused }) => (
                         <Text style={focused ? styles.tabLabelFocused : styles.tabLabel}>Home</Text>
                     ),
-                    tabBarIcon: ({ focused }) => (focused ? <HomeBoldIcon /> : <HomeLightIcon />)
+                    tabBarIcon: ({ focused }) =>
+                        focused ? (
+                            <View style={styles.tabIcon}>
+                                <HomeBoldIcon />
+                            </View>
+                        ) : (
+                            <View style={styles.tabIcon}>
+                                <HomeLightIcon />
+                            </View>
+                        )
                 }}
             />
             <Tab.Screen
@@ -78,7 +49,15 @@ const TheBottomTabsNavigation = () => {
                         </Text>
                     ),
                     tabBarIcon: ({ focused }) =>
-                        focused ? <SearchBoldIcon /> : <SearchLightIcon />
+                        focused ? (
+                            <View style={styles.tabIcon}>
+                                <SearchBoldIcon />
+                            </View>
+                        ) : (
+                            <View style={styles.tabIcon}>
+                                <SearchLightIcon />
+                            </View>
+                        )
                 }}
             />
             <Tab.Screen
@@ -91,7 +70,15 @@ const TheBottomTabsNavigation = () => {
                         </Text>
                     ),
                     tabBarIcon: ({ focused }) =>
-                        focused ? <LibraryBoldIcon /> : <LibraryLightIcon />
+                        focused ? (
+                            <View style={styles.tabIcon}>
+                                <LibraryBoldIcon />
+                            </View>
+                        ) : (
+                            <View style={styles.tabIcon}>
+                                <LibraryLightIcon />
+                            </View>
+                        )
                 }}
             />
         </Tab.Navigator>
@@ -102,17 +89,23 @@ export default TheBottomTabsNavigation;
 
 const styles = StyleSheet.create({
     tabLabel: {
-        fontFamily: 'Poppins_400Regular',
+        fontFamily: Fonts.Poppins_400Regular,
         fontSize: 10,
         lineHeight: 15,
         color: neutral[60],
         marginTop: -4
     },
     tabLabelFocused: {
-        fontFamily: 'Poppins_500Medium',
+        fontFamily: Fonts.Poppins_500Medium,
         fontSize: 10,
         lineHeight: 15,
         color: primary[50],
         marginTop: -4
+    },
+    tabIcon: {
+        width: 24,
+        height: 24,
+        justifyContent: 'center',
+        alignItems: 'center'
     }
 });
