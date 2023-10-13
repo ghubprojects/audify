@@ -1,4 +1,10 @@
-import { Poppins_400Regular, useFonts } from '@expo-google-fonts/poppins';
+import {
+    Poppins_400Regular,
+    Poppins_500Medium,
+    Poppins_600SemiBold,
+    Poppins_700Bold,
+    useFonts
+} from '@expo-google-fonts/poppins';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
@@ -8,6 +14,17 @@ import { NewReleasesScreen } from 'screens';
 const Stack = createNativeStackNavigator();
 
 function App() {
+    const [fontsLoaded, fontError] = useFonts({
+        Poppins_400Regular,
+        Poppins_500Medium,
+        Poppins_600SemiBold,
+        Poppins_700Bold
+    });
+
+    if (!fontsLoaded && !fontError) {
+        return null;
+    }
+
     return (
         <NavigationContainer>
             <Stack.Navigator screenOptions={{ headerShown: false }}>

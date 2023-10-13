@@ -1,141 +1,323 @@
+import { ActivityIcon, CameraIcon, PlayIcon, ProfileIcon } from 'assets/icons/light';
+
 export const categories = [
-    { id: 0, name: 'Art' },
+    { id: 0, name: 'Novel' },
     { id: 1, name: 'Business' },
     { id: 2, name: 'Comedy' },
     { id: 3, name: 'Drama' },
     { id: 4, name: 'Biography' },
     { id: 5, name: 'Science' },
-    { id: 6, name: 'Philosophy' },
+    { id: 6, name: 'Music' },
     { id: 7, name: 'Culture' },
     { id: 8, name: 'Education' },
-    { id: 9, name: 'News' },
+    { id: 9, name: 'Personality' },
     { id: 10, name: 'Technology' },
     { id: 11, name: 'History' },
-    { id: 12, name: 'Travel' }
+    { id: 12, name: 'Photography' }
+];
+
+export const recommendedCategories = [
+    { id: 1, name: 'Business', icon: <ActivityIcon /> },
+    { id: 9, name: 'Personality', icon: <ProfileIcon /> },
+    { id: 6, name: 'Music', icon: <PlayIcon /> },
+    { id: 12, name: 'Photography', icon: <CameraIcon /> }
 ];
 
 export const recommendedBooks = [
     {
         id: 1,
         title: 'Book Title 1',
-        image: require('assets/images/image.png')
+        poster: require('assets/images/image.jpg')
     },
     {
         id: 2,
         title: 'Book Title 2',
-        image: require('assets/images/image.png')
+        poster: require('assets/images/image.jpg')
     },
     {
         id: 3,
         title: 'Book Title 1',
-        image: require('assets/images/image.png')
+        poster: require('assets/images/image.jpg')
     },
     {
         id: 4,
         title: 'Book Title 2',
-        image: require('assets/images/image.png')
+        poster: require('assets/images/image.jpg')
     },
     {
         id: 5,
         title: 'Book Title 1',
-        image: require('assets/images/image.png')
+        poster: require('assets/images/image.jpg')
     },
     {
         id: 6,
         title: 'Book Title 2',
-        image: require('assets/images/image.png')
+        poster: require('assets/images/image.jpg')
     }
 ];
 
 export const bestSellers = [
     {
-        id: 1,
-        title: 'The Catcher in the Rye',
-        author: 'J.D. Salinger',
-        image: require('assets/images/best1.jpg'),
+        id: 7,
+        title: 'Deathly Hallows',
+        author: 'J. K. Rowling',
+        poster: require('assets/images/harrypotter7.jpg'),
         rating: 5,
+        listenersNumber: 1500
+    },
+    {
+        id: 1,
+        title: "Sorcerer's Stone",
+        author: 'J. K. Rowling',
+        poster: require('assets/images/harrypotter1.jpg'),
+        rating: 4.8,
         listenersNumber: 1200
     },
     {
-        id: 2,
-        title: 'To Kill a Mockingbird',
-        author: 'Harper Lee',
-        image: require('assets/images/best2.jpg'),
-        rating: 4.7,
-        listenersNumber: 1000
-    },
-    {
-        id: 3,
-        title: '1984',
-        author: 'George Orwell',
-        image: require('assets/images/best3.jpg'),
+        id: 4,
+        title: 'Goblet of Fire',
+        author: 'J. K. Rowling',
+        poster: require('assets/images/harrypotter4.jpg'),
         rating: 4.5,
-        listenersNumber: 800
+        listenersNumber: 1200
     }
 ];
 
 export const newReleases = [
     {
-        id: 1,
-        title: '1984',
-        image: require('assets/images/best3.jpg')
-    },
-    {
-        id: 2,
-        title: 'The Catcher in the Rye',
-        image: require('assets/images/best1.jpg')
-    },
-    {
-        id: 3,
-        title: 'To Kill a Mockingbird',
-        image: require('assets/images/best2.jpg')
-    },
-    {
-        id: 4,
-        title: '1984',
-        image: require('assets/images/best3.jpg')
-    },
-    {
-        id: 5,
-        title: 'The Catcher in the Rye',
-        image: require('assets/images/best1.jpg')
+        id: 7,
+        title: 'Deathly Hallows',
+        author: 'J. K. Rowling',
+        poster: require('assets/images/harrypotter7.jpg'),
+        rating: 5,
+        listenersNumber: 1500
     },
     {
         id: 6,
-        title: 'To Kill a Mockingbird',
-        image: require('assets/images/best2.jpg')
+        title: 'Half-blood Prince',
+        author: 'J. K. Rowling',
+        poster: require('assets/images/harrypotter6.jpg'),
+        rating: 4.3,
+        listenersNumber: 800
+    },
+    {
+        id: 5,
+        title: 'Order of the Phoenix',
+        author: 'J. K. Rowling',
+        poster: require('assets/images/harrypotter5.jpg'),
+        rating: 3.8,
+        listenersNumber: 1000
+    },
+    {
+        id: 4,
+        title: 'Goblet of Fire',
+        author: 'J. K. Rowling',
+        poster: require('assets/images/harrypotter4.jpg'),
+        rating: 4.5,
+        listenersNumber: 1200
+    },
+    {
+        id: 3,
+        title: 'Prisoner of Azkaban',
+        author: 'J. K. Rowling',
+        poster: require('assets/images/harrypotter3.jpg'),
+        rating: 4.3,
+        listenersNumber: 800
+    },
+    {
+        id: 2,
+        title: 'Chamber of Secrets',
+        author: 'J. K. Rowling',
+        poster: require('assets/images/harrypotter2.jpg'),
+        rating: 4.5,
+        listenersNumber: 1000
+    },
+    {
+        id: 1,
+        title: "Sorcerer's Stone",
+        author: 'J. K. Rowling',
+        poster: require('assets/images/harrypotter1.jpg'),
+        rating: 4.8,
+        listenersNumber: 1200
     }
 ];
 
 export const trendings = [
     {
-        id: 1,
-        title: '1984',
-        image: require('assets/images/best3.jpg')
-    },
-    {
-        id: 2,
-        title: 'The Catcher in the Rye',
-        image: require('assets/images/best1.jpg')
-    },
-    {
         id: 3,
-        title: 'To Kill a Mockingbird',
-        image: require('assets/images/best2.jpg')
+        title: 'Prisoner of Azkaban',
+        author: 'J. K. Rowling',
+        poster: require('assets/images/harrypotter3.jpg'),
+        rating: 4.3,
+        listenersNumber: 800
     },
     {
         id: 4,
-        title: '1984',
-        image: require('assets/images/best3.jpg')
-    },
-    {
-        id: 5,
-        title: 'The Catcher in the Rye',
-        image: require('assets/images/best1.jpg')
+        title: 'Goblet of Fire',
+        author: 'J. K. Rowling',
+        poster: require('assets/images/harrypotter4.jpg'),
+        rating: 4.5,
+        listenersNumber: 1200
     },
     {
         id: 6,
-        title: 'To Kill a Mockingbird',
-        image: require('assets/images/best2.jpg')
+        title: 'Half-blood Prince',
+        author: 'J. K. Rowling',
+        poster: require('assets/images/harrypotter6.jpg'),
+        rating: 4.3,
+        listenersNumber: 800
+    },
+    {
+        id: 7,
+        title: 'Deathly Hallows',
+        author: 'J. K. Rowling',
+        poster: require('assets/images/harrypotter7.jpg'),
+        rating: 5,
+        listenersNumber: 1500
+    }
+];
+
+export const latestSearch = [
+    {
+        id: 2,
+        title: 'Chamber of Secrets',
+        author: 'J. K. Rowling',
+        poster: require('assets/images/harrypotter2.jpg'),
+        rating: 4.5,
+        listenersNumber: 1000
+    },
+    {
+        id: 4,
+        title: 'Goblet of Fire',
+        author: 'J. K. Rowling',
+        poster: require('assets/images/harrypotter4.jpg'),
+        rating: 4.5,
+        listenersNumber: 1200
+    },
+    {
+        id: 6,
+        title: 'Half-blood Prince',
+        author: 'J. K. Rowling',
+        poster: require('assets/images/harrypotter6.jpg'),
+        rating: 4.3,
+        listenersNumber: 800
+    }
+];
+
+export const searchResults = [
+    {
+        id: 1,
+        title: "Sorcerer's Stone",
+        author: 'J. K. Rowling',
+        poster: require('assets/images/harrypotter1.jpg'),
+        rating: 4.8,
+        listenersNumber: 1200
+    },
+    {
+        id: 2,
+        title: 'Chamber of Secrets',
+        author: 'J. K. Rowling',
+        poster: require('assets/images/harrypotter2.jpg'),
+        rating: 4.5,
+        listenersNumber: 1000
+    },
+    {
+        id: 3,
+        title: 'Prisoner of Azkaban',
+        author: 'J. K. Rowling',
+        poster: require('assets/images/harrypotter3.jpg'),
+        rating: 4.3,
+        listenersNumber: 800
+    },
+    {
+        id: 4,
+        title: 'Goblet of Fire',
+        author: 'J. K. Rowling',
+        poster: require('assets/images/harrypotter4.jpg'),
+        rating: 4.5,
+        listenersNumber: 1200
+    },
+    {
+        id: 5,
+        title: 'Order of the Phoenix',
+        author: 'J. K. Rowling',
+        poster: require('assets/images/harrypotter5.jpg'),
+        rating: 3.8,
+        listenersNumber: 1000
+    },
+    {
+        id: 6,
+        title: 'Half-blood Prince',
+        author: 'J. K. Rowling',
+        poster: require('assets/images/harrypotter6.jpg'),
+        rating: 4.3,
+        listenersNumber: 800
+    },
+    {
+        id: 7,
+        title: 'Deathly Hallows',
+        author: 'J. K. Rowling',
+        poster: require('assets/images/harrypotter7.jpg'),
+        rating: 5,
+        listenersNumber: 1500
+    }
+];
+
+export const libraryBooks = [
+    {
+        id: 1,
+        title: "Sorcerer's Stone",
+        author: 'J. K. Rowling',
+        poster: require('assets/images/harrypotter1.jpg'),
+        rating: 4.8,
+        listenersNumber: 1200
+    },
+    {
+        id: 2,
+        title: 'Chamber of Secrets',
+        author: 'J. K. Rowling',
+        poster: require('assets/images/harrypotter2.jpg'),
+        rating: 4.5,
+        listenersNumber: 1000
+    },
+    {
+        id: 3,
+        title: 'Prisoner of Azkaban',
+        author: 'J. K. Rowling',
+        poster: require('assets/images/harrypotter3.jpg'),
+        rating: 4.3,
+        listenersNumber: 800
+    },
+    {
+        id: 4,
+        title: 'Goblet of Fire',
+        author: 'J. K. Rowling',
+        poster: require('assets/images/harrypotter4.jpg'),
+        rating: 4.5,
+        listenersNumber: 1200
+    },
+    {
+        id: 5,
+        title: 'Order of the Phoenix',
+        author: 'J. K. Rowling',
+        poster: require('assets/images/harrypotter5.jpg'),
+        rating: 3.8,
+        listenersNumber: 1000
+    },
+    {
+        id: 6,
+        title: 'Half-blood Prince',
+        author: 'J. K. Rowling',
+        poster: require('assets/images/harrypotter6.jpg'),
+        rating: 4.3,
+        listenersNumber: 800
+    },
+    {
+        id: 7,
+        title: 'Deathly Hallows',
+        author: 'J. K. Rowling',
+        poster: require('assets/images/harrypotter7.jpg'),
+        rating: 5,
+        listenersNumber: 1500
     }
 ];
