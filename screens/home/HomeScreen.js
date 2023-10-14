@@ -13,7 +13,8 @@ import {
     recommendedBooks,
     trendings
 } from 'utils/homepage-data';
-import { Fonts } from 'utils/enum';
+import { Fonts } from 'utils/enums';
+import { ROUTES } from 'utils/constants';
 
 const StarRating = ({ rating }) => {
     const starRatings = Math.floor(rating);
@@ -36,7 +37,7 @@ const StarRating = ({ rating }) => {
     return <View style={styles.starRatingContainer}>{renderStars()}</View>;
 };
 
-const HomeScreen = () => {
+const HomeScreen = ({ navigation }) => {
     return (
         <ScrollView style={styles.container}>
             <TheHeader style={styles.header} />
@@ -72,7 +73,14 @@ const HomeScreen = () => {
                     </View>
                     <ScrollView horizontal contentContainerStyle={styles.contentContainer}>
                         {recommendedBooks.map((book) => (
-                            <Image key={book.id} source={book.poster} style={styles.poster} />
+                            <TouchableOpacity
+                                key={book.id}
+                                onPress={() =>
+                                    navigation.navigate(ROUTES.DETAIL, { name: book.title })
+                                }
+                            >
+                                <Image source={book.poster} style={styles.poster} />
+                            </TouchableOpacity>
                         ))}
                     </ScrollView>
                 </View>
@@ -87,7 +95,13 @@ const HomeScreen = () => {
                     </View>
                     <ScrollView horizontal contentContainerStyle={styles.contentContainer}>
                         {bestSellers.map((book) => (
-                            <View style={styles.bestItem} key={book.id}>
+                            <TouchableOpacity
+                                style={styles.bestItem}
+                                key={book.id}
+                                onPress={() =>
+                                    navigation.navigate(ROUTES.DETAIL, { name: book.title })
+                                }
+                            >
                                 <Image source={book.poster} style={styles.bestImage} />
                                 <View style={styles.bestDetails}>
                                     <View style={styles.titleAndAuthor}>
@@ -101,13 +115,13 @@ const HomeScreen = () => {
                                         </Text>
                                     </View>
                                 </View>
-                            </View>
+                            </TouchableOpacity>
                         ))}
                     </ScrollView>
                 </View>
 
                 {/* New Releases Section */}
-                <BookList title='New Releases' list={newReleases} />
+                <BookList title='New Releases' list={newReleases} seeMoreUrl={ROUTES.NEW_RELEASE} />
 
                 {/* Trending Section */}
                 <BookList title='Trending Now' list={trendings} />

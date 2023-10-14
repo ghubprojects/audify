@@ -1,16 +1,20 @@
-import { Image, StyleSheet, Text, View } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
+import { Image, StyleSheet, Text, TouchableOpacity } from 'react-native';
 import { primary } from 'styles/colors';
-import { Fonts } from 'utils/enum';
+import { ROUTES } from 'utils/constants';
+import { Fonts } from 'utils/enums';
 
 const BookListItem = ({ book, wrapTitle, showAuthor }) => {
+    const navigation = useNavigation();
+
     return (
-        <View>
+        <TouchableOpacity onPress={() => navigation.navigate(ROUTES.DETAIL, { name: book.title })}>
             <Image source={book.poster} style={styles.poster} />
             <Text numberOfLines={wrapTitle ? 0 : 1} style={styles.title}>
                 {book.title}
             </Text>
             {showAuthor && <Text style={styles.author}>{book.author}</Text>}
-        </View>
+        </TouchableOpacity>
     );
 };
 

@@ -11,7 +11,7 @@ import {
     recommendedCategories,
     searchResults
 } from 'utils/homepage-data';
-import { Fonts } from 'utils/enum';
+import { Fonts } from 'utils/enums';
 
 const LibraryScreen = () => {
     return (

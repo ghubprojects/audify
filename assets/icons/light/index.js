@@ -10,3 +10,6 @@ export { default as ActivityIcon } from './Activity.svg';
 export { default as CameraIcon } from './Camera.svg';
 export { default as PlayIcon } from './Play.svg';
 export { default as ProfileIcon } from './Profile.svg';
+
+export { default as ArrowLeftIcon } from './ArrowLeft.svg';
+export { default as MoreIcon } from './More.svg';

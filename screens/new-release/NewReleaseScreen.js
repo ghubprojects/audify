@@ -1,14 +1,13 @@
 import { StyleSheet, Text, View } from 'react-native';
-import React from 'react';
 
-const NewReleasesScreen = () => {
+const NewReleaseScreen = () => {
     return (
         <View>
-            <Text>NewReleasesScreen</Text>
+            <Text>NewReleaseScreen</Text>
         </View>
     );
 };
 
-export default NewReleasesScreen;
+export default NewReleaseScreen;
 
 const styles = StyleSheet.create({});

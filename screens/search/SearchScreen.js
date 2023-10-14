@@ -6,7 +6,7 @@ import TheHeader from 'layouts/components/TheHeader';
 
 import { neutral } from 'styles/colors';
 import { latestSearch, recommendedCategories, searchResults } from 'utils/homepage-data';
-import { Fonts } from 'utils/enum';
+import { Fonts } from 'utils/enums';
 
 const SearchScreen = () => {
     return (
