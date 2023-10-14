@@ -8,12 +8,15 @@ import {
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { NavigationContainer } from '@react-navigation/native';
 import { StyleSheet, Text, View } from 'react-native';
+import { Provider } from 'react-redux';
+
+import { getHomeStackNavigator, getLibraryStackNavigator, getSearchStackNavigator } from 'screens';
+import { store } from 'store';
+import { Fonts } from 'utils/enums';
 
 import { HomeBoldIcon, LibraryBoldIcon, SearchBoldIcon } from 'assets/icons/bold';
 import { HomeLightIcon, LibraryLightIcon, SearchLightIcon } from 'assets/icons/light';
-import { getHomeStackNavigator, getLibraryStackNavigator, getSearchStackNavigator } from 'screens';
 import { neutral, primary } from 'styles/colors';
-import { Fonts } from 'utils/enums';
 
 const TABS = Object.freeze({
     HOME_TAB: 'HOME_TAB',
@@ -47,46 +50,48 @@ function App() {
     }
 
     return (
-        <NavigationContainer>
-            <Tab.Navigator
-                screenOptions={() => ({
-                    headerShown: false,
-                    tabBarActiveTintColor: primary[50],
-                    tabBarInactiveTintColor: neutral[60]
-                })}
-            >
-                <Tab.Screen
-                    name={TABS.HOME_TAB}
-                    options={{
-                        tabBarLabel: ({ focused }) => getTabLabel('Home', focused),
-                        tabBarIcon: ({ focused }) =>
-                            getTabIcon(focused, <HomeLightIcon />, <HomeBoldIcon />)
-                    }}
+        <Provider store={store}>
+            <NavigationContainer>
+                <Tab.Navigator
+                    screenOptions={() => ({
+                        headerShown: false,
+                        tabBarActiveTintColor: primary[50],
+                        tabBarInactiveTintColor: neutral[60]
+                    })}
                 >
-                    {getHomeStackNavigator}
-                </Tab.Screen>
-                <Tab.Screen
-                    name={TABS.SEARCH_TAB}
-                    options={{
-                        tabBarLabel: ({ focused }) => getTabLabel('Search', focused),
-                        tabBarIcon: ({ focused }) =>
-                            getTabIcon(focused, <SearchLightIcon />, <SearchBoldIcon />)
-                    }}
-                >
-                    {getSearchStackNavigator}
-                </Tab.Screen>
-                <Tab.Screen
-                    name={TABS.LIBRARY_TAB}
-                    options={{
-                        tabBarLabel: ({ focused }) => getTabLabel('Library', focused),
-                        tabBarIcon: ({ focused }) =>
-                            getTabIcon(focused, <LibraryLightIcon />, <LibraryBoldIcon />)
-                    }}
-                >
-                    {getLibraryStackNavigator}
-                </Tab.Screen>
-            </Tab.Navigator>
-        </NavigationContainer>
+                    <Tab.Screen
+                        name={TABS.HOME_TAB}
+                        options={{
+                            tabBarLabel: ({ focused }) => getTabLabel('Home', focused),
+                            tabBarIcon: ({ focused }) =>
+                                getTabIcon(focused, <HomeLightIcon />, <HomeBoldIcon />)
+                        }}
+                    >
+                        {getHomeStackNavigator}
+                    </Tab.Screen>
+                    <Tab.Screen
+                        name={TABS.SEARCH_TAB}
+                        options={{
+                            tabBarLabel: ({ focused }) => getTabLabel('Search', focused),
+                            tabBarIcon: ({ focused }) =>
+                                getTabIcon(focused, <SearchLightIcon />, <SearchBoldIcon />)
+                        }}
+                    >
+                        {getSearchStackNavigator}
+                    </Tab.Screen>
+                    <Tab.Screen
+                        name={TABS.LIBRARY_TAB}
+                        options={{
+                            tabBarLabel: ({ focused }) => getTabLabel('Library', focused),
+                            tabBarIcon: ({ focused }) =>
+                                getTabIcon(focused, <LibraryLightIcon />, <LibraryBoldIcon />)
+                        }}
+                    >
+                        {getLibraryStackNavigator}
+                    </Tab.Screen>
+                </Tab.Navigator>
+            </NavigationContainer>
+        </Provider>
     );
 }
 

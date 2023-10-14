@@ -1,18 +1,30 @@
 import { useNavigation } from '@react-navigation/native';
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { useDispatch } from 'react-redux';
 
+import { setCurrent } from 'slices/bookSlice';
 import { primary } from 'styles/colors';
 import { ROUTES } from 'utils/constants';
 import { Fonts } from 'utils/enums';
 
 const LibraryItem = ({ book }) => {
     const navigation = useNavigation();
+    const dispatch = useDispatch();
+
+    /**
+     * Xử lý khi ấn vào sách
+     * @param {object} book sách được lựa chọn
+     */
+    const handlePressBook = (book) => {
+        dispatch(setCurrent(book));
+        navigation.navigate(ROUTES.DETAIL, {
+            id: book.id,
+            name: book.title
+        });
+    };
 
     return (
-        <TouchableOpacity
-            style={styles.wrapper}
-            onPress={() => navigation.navigate(ROUTES.DETAIL, { name: book.title })}
-        >
+        <TouchableOpacity style={styles.wrapper} onPress={() => handlePressBook(book)}>
             <Image source={book.poster} style={styles.poster} />
             <View style={styles.titleAndAuthor}>
                 <Text style={styles.title}>{book.title}</Text>

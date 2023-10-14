@@ -1,5 +1,100 @@
 import { ActivityIcon, CameraIcon, PlayIcon, ProfileIcon } from 'assets/icons/light';
 
+export const bookList = [
+    {
+        id: 1,
+        title: "Sorcerer's Stone",
+        author: 'J. K. Rowling',
+        poster: require('assets/images/harrypotter1.jpg'),
+        rating: 4.8,
+        listenersNumber: 1200
+    },
+    {
+        id: 2,
+        title: 'Chamber of Secrets',
+        author: 'J. K. Rowling',
+        poster: require('assets/images/harrypotter2.jpg'),
+        rating: 4.5,
+        listenersNumber: 1000
+    },
+    {
+        id: 3,
+        title: 'Prisoner of Azkaban',
+        author: 'J. K. Rowling',
+        poster: require('assets/images/harrypotter3.jpg'),
+        rating: 4.3,
+        listenersNumber: 800
+    },
+    {
+        id: 4,
+        title: 'Goblet of Fire',
+        author: 'J. K. Rowling',
+        poster: require('assets/images/harrypotter4.jpg'),
+        rating: 4.5,
+        listenersNumber: 1200
+    },
+    {
+        id: 5,
+        title: 'Order of the Phoenix',
+        author: 'J. K. Rowling',
+        poster: require('assets/images/harrypotter5.jpg'),
+        rating: 3.8,
+        listenersNumber: 1000
+    },
+    {
+        id: 6,
+        title: 'Half-blood Prince',
+        author: 'J. K. Rowling',
+        poster: require('assets/images/harrypotter6.jpg'),
+        rating: 4.3,
+        listenersNumber: 800
+    },
+    {
+        id: 7,
+        title: 'Deathly Hallows',
+        author: 'J. K. Rowling',
+        poster: require('assets/images/harrypotter7.jpg'),
+        rating: 5,
+        listenersNumber: 1500
+    },
+    {
+        id: 11,
+        title: 'Book Title 11',
+        author: 'Conan Doyle',
+        poster: require('assets/images/image.jpg')
+    },
+    {
+        id: 12,
+        title: 'Book Title 12',
+        author: 'Conan Doyle',
+        poster: require('assets/images/image.jpg')
+    },
+    {
+        id: 13,
+        title: 'Book Title 13',
+        author: 'Conan Doyle',
+        poster: require('assets/images/image.jpg')
+    },
+    {
+        id: 14,
+        title: 'Book Title 14',
+        author: 'Conan Doyle',
+        poster: require('assets/images/image.jpg')
+    },
+    {
+        id: 15,
+        title: 'Book Title 15',
+        author: 'Conan Doyle',
+        poster: require('assets/images/image.jpg')
+    },
+    {
+        id: 16,
+        title: 'Book Title 16',
+        author: 'Conan Doyle',
+        poster: require('assets/images/image.jpg')
+    }
+];
+
 export const categories = [
     { id: 0, name: 'Novel' },
     { id: 1, name: 'Business' },
@@ -25,33 +120,39 @@ export const recommendedCategories = [
 
 export const recommendedBooks = [
     {
-        id: 1,
+        id: 11,
         title: 'Book Title 1',
+        author: 'Conan Doyle',
         poster: require('assets/images/image.jpg')
     },
     {
-        id: 2,
+        id: 12,
         title: 'Book Title 2',
+        author: 'Conan Doyle',
         poster: require('assets/images/image.jpg')
     },
     {
-        id: 3,
+        id: 13,
         title: 'Book Title 1',
+        author: 'Conan Doyle',
         poster: require('assets/images/image.jpg')
     },
     {
-        id: 4,
+        id: 14,
         title: 'Book Title 2',
+        author: 'Conan Doyle',
         poster: require('assets/images/image.jpg')
     },
     {
-        id: 5,
+        id: 15,
         title: 'Book Title 1',
+        author: 'Conan Doyle',
         poster: require('assets/images/image.jpg')
     },
     {
-        id: 6,
+        id: 16,
         title: 'Book Title 2',
+        author: 'Conan Doyle',
         poster: require('assets/images/image.jpg')
     }
 ];

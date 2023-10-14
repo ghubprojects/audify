@@ -1,11 +1,16 @@
+import { useEffect } from 'react';
 import { Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { BookList } from 'features';
 import { CategoryButton } from 'layouts/components';
 import TheHeader from 'layouts/components/TheHeader';
 
 import { StarFilledIcon, StarOutlinedIcon } from 'assets/icons/light';
+import { getListAll, setCurrent } from 'slices/bookSlice';
 import { neutral, primary } from 'styles/colors';
+import { ROUTES } from 'utils/constants';
+import { Fonts } from 'utils/enums';
 import {
     bestSellers,
     categories,
@@ -13,8 +18,6 @@ import {
     recommendedBooks,
     trendings
 } from 'utils/homepage-data';
-import { Fonts } from 'utils/enums';
-import { ROUTES } from 'utils/constants';
 
 const StarRating = ({ rating }) => {
     const starRatings = Math.floor(rating);
@@ -38,6 +41,24 @@ const StarRating = ({ rating }) => {
 };
 
 const HomeScreen = ({ navigation }) => {
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        dispatch(getListAll());
+    }, []);
+
+    /**
+     * Xử lý khi ấn vào sách
+     * @param {object} book sách được lựa chọn
+     */
+    const handlePressBook = (book) => {
+        dispatch(setCurrent(book));
+        navigation.navigate(ROUTES.DETAIL, {
+            id: book.id,
+            name: book.title
+        });
+    };
+
     return (
         <ScrollView style={styles.container}>
             <TheHeader style={styles.header} />
@@ -73,12 +94,7 @@ const HomeScreen = ({ navigation }) => {
                     </View>
                     <ScrollView horizontal contentContainerStyle={styles.contentContainer}>
                         {recommendedBooks.map((book) => (
-                            <TouchableOpacity
-                                key={book.id}
-                                onPress={() =>
-                                    navigation.navigate(ROUTES.DETAIL, { name: book.title })
-                                }
-                            >
+                            <TouchableOpacity key={book.id} onPress={() => handlePressBook(book)}>
                                 <Image source={book.poster} style={styles.poster} />
                             </TouchableOpacity>
                         ))}
@@ -98,9 +114,7 @@ const HomeScreen = ({ navigation }) => {
                             <TouchableOpacity
                                 style={styles.bestItem}
                                 key={book.id}
-                                onPress={() =>
-                                    navigation.navigate(ROUTES.DETAIL, { name: book.title })
-                                }
+                                onPress={() => handlePressBook(book)}
                             >
                                 <Image source={book.poster} style={styles.bestImage} />
                                 <View style={styles.bestDetails}>
