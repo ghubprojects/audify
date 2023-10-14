@@ -6,7 +6,7 @@ import { HomeScreen, LibraryScreen, SearchScreen } from 'screens';
 import { HomeBoldIcon, LibraryBoldIcon, SearchBoldIcon } from 'assets/icons/bold';
 import { HomeLightIcon, LibraryLightIcon, SearchLightIcon } from 'assets/icons/light';
 import { neutral, primary } from 'styles/colors';
-import { Fonts } from 'utils/enum';
+import { Fonts } from 'utils/enums';
 
 const Tab = createBottomTabNavigator();
 

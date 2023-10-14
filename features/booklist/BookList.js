@@ -1,18 +1,19 @@
+import { useNavigation } from '@react-navigation/native';
 import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 import { primary } from 'styles/colors';
+import { Fonts } from 'utils/enums';
 import BookListItem from './BookListItem';
-import { Fonts } from 'utils/enum';
 
-const BookList = ({ title, navigateTo, list, wrapList, wrapTitle = true, showAuthor }) => {
+const BookList = ({ title, seeMoreUrl, list, wrapList, wrapTitle = true, showAuthor }) => {
+    const navigation = useNavigation();
+
     return (
         <View>
             <View style={styles.header}>
                 <Text style={styles.title}>{title}</Text>
-                {navigateTo && (
-                    <TouchableOpacity
-                    /*  onPress={() => navigation.navigate('NewReleasesScreen')} */
-                    >
+                {seeMoreUrl && (
+                    <TouchableOpacity onPress={() => navigation.navigate(seeMoreUrl)}>
                         <Text style={styles.seeMore}>See more</Text>
                     </TouchableOpacity>
                 )}
