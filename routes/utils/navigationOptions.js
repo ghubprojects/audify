@@ -6,6 +6,7 @@ export const getDefaultHeaderWithTitle = (route, navigation) => ({
     title: route.params.name,
     headerTitleAlign: 'center',
     headerTitleStyle: styles.title,
+    headerShadowVisible: false,
     headerLeft: () => (
         <TouchableOpacity style={styles.icon} onPress={() => navigation.goBack()}>
             <ArrowLeftIcon />

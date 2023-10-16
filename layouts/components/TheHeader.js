@@ -1,27 +1,11 @@
-import {
-    Poppins_400Regular,
-    Poppins_600SemiBold,
-    Poppins_700Bold,
-    useFonts
-} from '@expo-google-fonts/poppins';
 import { StyleSheet, Text, View } from 'react-native';
 
 import { LogoLight, SettingLightIcon } from 'assets/icons/light';
 import { accent, primary } from 'styles/colors';
 
 const TheHeader = ({ style }) => {
-    const [fontsLoaded, fontError] = useFonts({
-        Poppins_400Regular,
-        Poppins_600SemiBold,
-        Poppins_700Bold
-    });
-
-    if (!fontsLoaded && !fontError) {
-        return null;
-    }
-
     return (
-        <View style={{ ...style, ...styles.header }}>
+        <View style={[style, styles.header]}>
             <View style={styles.appTitle}>
                 <LogoLight />
                 <View style={styles.appName}>
