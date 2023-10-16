@@ -14,8 +14,7 @@ import { getHomeStackNavigator, getLibraryStackNavigator, getSearchStackNavigato
 import { store } from 'store';
 import { Fonts } from 'utils/enums';
 
-import { HomeBoldIcon, LibraryBoldIcon, SearchBoldIcon } from 'assets/icons/bold';
-import { HomeLightIcon, LibraryLightIcon, SearchLightIcon } from 'assets/icons/light';
+import { DocumentIcon, HomeIcon, SearchIcon } from 'assets/icons';
 import { neutral, primary } from 'styles/colors';
 
 const TABS = Object.freeze({
@@ -64,7 +63,11 @@ function App() {
                         options={{
                             tabBarLabel: ({ focused }) => getTabLabel('Home', focused),
                             tabBarIcon: ({ focused }) =>
-                                getTabIcon(focused, <HomeLightIcon />, <HomeBoldIcon />)
+                                getTabIcon(
+                                    focused,
+                                    <HomeIcon type='Light' />,
+                                    <HomeIcon type='Bold' />
+                                )
                         }}
                     >
                         {getHomeStackNavigator}
@@ -74,7 +77,11 @@ function App() {
                         options={{
                             tabBarLabel: ({ focused }) => getTabLabel('Search', focused),
                             tabBarIcon: ({ focused }) =>
-                                getTabIcon(focused, <SearchLightIcon />, <SearchBoldIcon />)
+                                getTabIcon(
+                                    focused,
+                                    <SearchIcon type='Light' />,
+                                    <SearchIcon type='Bold' />
+                                )
                         }}
                     >
                         {getSearchStackNavigator}
@@ -84,7 +91,11 @@ function App() {
                         options={{
                             tabBarLabel: ({ focused }) => getTabLabel('Library', focused),
                             tabBarIcon: ({ focused }) =>
-                                getTabIcon(focused, <LibraryLightIcon />, <LibraryBoldIcon />)
+                                getTabIcon(
+                                    focused,
+                                    <DocumentIcon type='Light' />,
+                                    <DocumentIcon type='Bold' />
+                                )
                         }}
                     >
                         {getLibraryStackNavigator}

@@ -1,12 +1,11 @@
 import { useEffect } from 'react';
 import { Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 
-import { BookList } from 'features';
+import { BookList, StarRating } from 'features';
 import { CategoryButton } from 'layouts/components';
 import TheHeader from 'layouts/components/TheHeader';
 
-import { StarFilledIcon, StarOutlinedIcon } from 'assets/icons/light';
 import { getListAll, setCurrent } from 'slices/bookSlice';
 import { neutral, primary } from 'styles/colors';
 import { ROUTES } from 'utils/constants';
@@ -18,27 +17,6 @@ import {
     recommendedBooks,
     trendings
 } from 'utils/homepage-data';
-
-const StarRating = ({ rating }) => {
-    const starRatings = Math.floor(rating);
-    const maxRatings = 5;
-
-    const renderStars = () => {
-        const stars = [];
-        for (let i = 0; i < starRatings; i++) {
-            stars.push(<StarFilledIcon key={i} />);
-        }
-
-        if (starRatings < maxRatings)
-            for (let i = starRatings; i < maxRatings; i++) {
-                stars.push(<StarOutlinedIcon key={i} />);
-            }
-
-        return stars;
-    };
-
-    return <View style={styles.starRatingContainer}>{renderStars()}</View>;
-};
 
 const HomeScreen = ({ navigation }) => {
     const dispatch = useDispatch();
@@ -217,12 +195,6 @@ const styles = StyleSheet.create({
         fontSize: 12,
         lineHeight: 18,
         color: neutral[60]
-    },
-
-    starRatingContainer: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        gap: 8
     },
 
     bottomTitle: {
