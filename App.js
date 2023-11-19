@@ -16,8 +16,11 @@ import { Fonts } from 'utils/enums';
 
 import { DocumentIcon, HomeIcon, SearchIcon } from 'assets/icons';
 import { neutral, primary } from 'styles/colors';
+import ForgetPassWord from 'screens/forget-password/ForgetPassWord';
 import Login from 'screens/login/Login';
 import Register from 'screens/register/Register';
+import Confirm from 'screens/confirm-code/Confirm';
+import EmailSend from 'screens/email-send/EmailSend';
 
 const TABS = Object.freeze({
     HOME_TAB: 'HOME_TAB',
@@ -53,7 +56,56 @@ function App() {
     return (
         <Provider store={store}>
             <NavigationContainer>
-                <Register />
+            <Tab.Navigator
+                    screenOptions={() => ({
+                        headerShown: false,
+                        tabBarActiveTintColor: primary[50],
+                        tabBarInactiveTintColor: neutral[60]
+                    })}
+                >
+                    <Tab.Screen
+                        name={TABS.HOME_TAB}
+                        options={{
+                            tabBarLabel: ({ focused }) => getTabLabel('Home', focused),
+                            tabBarIcon: ({ focused }) =>
+                                getTabIcon(
+                                    focused,
+                                    <HomeIcon type='Light' />,
+                                    <HomeIcon type='Bold' />
+                                )
+                        }}
+                    >
+                        {getHomeStackNavigator}
+                    </Tab.Screen>
+                    <Tab.Screen
+                        name={TABS.SEARCH_TAB}
+                        options={{
+                            tabBarLabel: ({ focused }) => getTabLabel('Search', focused),
+                            tabBarIcon: ({ focused }) =>
+                                getTabIcon(
+                                    focused,
+                                    <SearchIcon type='Light' />,
+                                    <SearchIcon type='Bold' />
+                                )
+                        }}
+                    >
+                        {getSearchStackNavigator}
+                    </Tab.Screen>
+                    <Tab.Screen
+                        name={TABS.LIBRARY_TAB}
+                        options={{
+                            tabBarLabel: ({ focused }) => getTabLabel('Library', focused),
+                            tabBarIcon: ({ focused }) =>
+                                getTabIcon(
+                                    focused,
+                                    <DocumentIcon type='Light' />,
+                                    <DocumentIcon type='Bold' />
+                                )
+                        }}
+                    >
+                        {getLibraryStackNavigator}
+                    </Tab.Screen>
+                </Tab.Navigator>
             </NavigationContainer>
         </Provider>
     );

@@ -9,33 +9,46 @@ import Svg from 'react-native-svg';
 
 import Logo from '../../assets/images/logo.png';
 
-export default function Register() {
+export default function Confirm() {
     return (
         <View style={styles.root}>
             <Svg height='200' width='200' viewBox='-5 -10 50 50'>
                 <LogoLight />
             </Svg>
             <CustomLoginText
-                textValue='Register'
+                textValue='Confirmation Code'
+                marginVer={16}
                 align='flex-start'
-                marginVer={10}
                 marginL={60}
-                fweight={'bold'}
+                fweight={"bold"}
             />
-            <CustomLoginInput placeholder='Email' />
-            <CustomLoginInput placeholder='Password' />
-            <CustomLoginInput placeholder='Date of Birth' />
-            <Text style={styles.mainText}>
-                By signing up, you agree to our
-                <Text style={{ color: 'orange', fontSize: 14 }}> Terms</Text>
-                <Text>, </Text>
-                <Text style={{ color: 'orange', fontSize: 14 }}>Data Policy</Text>
-                <Text> and </Text>
-                <Text style={{ color: 'orange', fontSize: 14 }}>Cookies Policy.</Text>
-            </Text>
+            <CustomLoginText 
+            textValue='Enter the confirmation code we sent to ' 
+            width={290}
+            fsize={15} />
+            <CustomLoginText 
+            textValue='your@mail.com.' 
+            width={290} 
+            marginVer={12}
+            fsize={15}
+            fweight={"bold"} />
+            <CustomLoginInput placeholder='Confirmation Code' />
+            <View style={styles.row}>
+                <Text height = {20}>
+                Didn’t receive the code?
+                </Text>
+                <CustomLoginButton
+                    onPress={''}
+                    text='Resend'
+                    bgColor='#FFFFFF'
+                    fgColor='#F77A55'
+                    w={60}
+                    h={20}
+                />
+            </View>
             <CustomLoginButton
                 onPress={''}
-                text='Register'
+                text='Submit'
                 bgColor='#4838D1'
                 w={295}
                 h={56}
@@ -67,13 +80,15 @@ const styles = StyleSheet.create({
         width: 100
     },
     mainText: {
-        width: 267,
-        height: 60,
-        marginVertical: 10
+        width: 300,
+        height: 24,
+        marginBottom: 10
     },
     row: {
         flexDirection: 'row',
-        justifyContent: 'space-between',
-        padding: 20
-    }
+        alignSelf: 'flex-start',
+        alignItems: 'center',
+        marginLeft: 60,
+        marginBottom: 10
+    },
 });

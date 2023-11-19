@@ -3,7 +3,7 @@ import { StyleSheet, Text, View, Image, TextInput, Button } from 'react-native';
 
 const CustomLoginInput = ({placeholder}) => {
     return (
-        <View style={styles.container   }>
+        <View style={styles.container}>
             <TextInput placeholder={placeholder} style={styles.input} />
         </View>
     );
@@ -16,7 +16,7 @@ const styles = StyleSheet.create(
             width: 295,
             height:53,
             borderRadius: 8,
-            paddingHorizontal: 10,
+            paddingHorizontal: 0,
             marginBottom: 16,
 
         },

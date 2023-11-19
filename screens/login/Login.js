@@ -24,21 +24,21 @@ export default function Login() {
             </Svg>
             
             <CustomLoginText
-                textValue='Thông tin tài khoản'
-                weight={600}
+                textValue='Login to Your Account'
                 marginVer={16}
                 align='flex-start'
                 marginL={60}
+                fweight={"bold"}
             />
             <CustomLoginInput placeholder='Email' />
-            <CustomLoginInput placeholder='Mật khẩu' />
+            <CustomLoginInput placeholder='Password' />
             <View style={styles.row2}>
                 <TouchableOpacity style={styles.checkbox}></TouchableOpacity>
-                <CustomLoginText textValue={'Ghi nhớ đăng nhập'} />
+                <CustomLoginText textValue={'Remember me'} fsize={12}/>
             </View>
             <CustomLoginButton
                 onPress={''}
-                text='Đăng nhập'
+                text='Login'
                 bgColor='#4838D1'
                 w={295}
                 h={56}
@@ -46,28 +46,28 @@ export default function Login() {
             />
             <CustomLoginButton
                 onPress={''}
-                text='Quên mật khẩu ?'
+                text='Forget password ?'
                 bgColor='#FFFFFF'
                 fgColor='#F77A55'
-                w={295}
+                w={240}
                 h={29}
                 align='flex-end'
             />
-            <CustomLoginText textValue='Hoặc đăng nhập bằng' />
+            <CustomLoginText textValue='Or login with' />
             <View style={styles.row}>
                 <LoginIconButton onPress={''} bgColor='#FFFFFF' imgSrc={GoogleLogo} />
                 <LoginIconButton onPress={''} bgColor='#FFFFFF' imgSrc={FacebookLogo} />
                 <LoginIconButton onPress={''} bgColor='#FFFFFF' imgSrc={TwitterLogo} />
             </View>
             <View style={styles.row}>
-                <CustomLoginText textValue='Bạn chưa có tài khoản ? ' />
+                <CustomLoginText textValue='Don’t have an accoun’t ? ' />
                 <CustomLoginButton
                     onPress={''}
-                    text='Đăng ký tại đây'
+                    text='Register'
                     bgColor='#FFFFFF'
                     fgColor='#F77A55'
-                    w={100}
-                    h={21}
+                    w={70}
+                    h={24}
                 />
             </View>
             <View style={styles.cache}></View>

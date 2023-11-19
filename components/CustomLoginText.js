@@ -1,14 +1,17 @@
 import React from "react";
 import { StyleSheet, Text, View, Image, TextInput, Button } from 'react-native';
 
-const CustomLoginText = ({ textValue, weight, marginVer, align, marginL }) => {
+const CustomLoginText = ({ textValue, width, marginVer, align, marginL, fsize, fweight }) => {
     return (
         <Text style={[
             styles.text,
             { textAlign: 'left' }, 
             marginVer ? { marginBottom: marginVer} : {},
             marginL ? {marginLeft: marginL} : {},
-            align ? {alignSelf: align} : {}
+            align ? {alignSelf: align} : {},
+            width ? {width: width} : {},
+            fsize ? {fontSize: fsize} : {},
+            fweight ? {fontWeight: fweight} : {}
         ]}>
             {textValue}
         </Text>

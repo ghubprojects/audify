@@ -9,41 +9,28 @@ import Svg from 'react-native-svg';
 
 import Logo from '../../assets/images/logo.png';
 
-export default function Register() {
+export default function EmailSend() {
     return (
         <View style={styles.root}>
             <Svg height='200' width='200' viewBox='-5 -10 50 50'>
                 <LogoLight />
             </Svg>
             <CustomLoginText
-                textValue='Register'
+                textValue='Email Sent'
                 align='flex-start'
                 marginVer={10}
                 marginL={60}
                 fweight={'bold'}
             />
-            <CustomLoginInput placeholder='Email' />
-            <CustomLoginInput placeholder='Password' />
-            <CustomLoginInput placeholder='Date of Birth' />
-            <Text style={styles.mainText}>
-                By signing up, you agree to our
-                <Text style={{ color: 'orange', fontSize: 14 }}> Terms</Text>
-                <Text>, </Text>
-                <Text style={{ color: 'orange', fontSize: 14 }}>Data Policy</Text>
-                <Text> and </Text>
-                <Text style={{ color: 'orange', fontSize: 14 }}>Cookies Policy.</Text>
-            </Text>
+            <CustomLoginText 
+            textValue='We sent an email to y***@mail.com 
+            with a link to get back into your account. ' 
+            width={290}
+            fsize={15}
+            marginVer={20} />
             <CustomLoginButton
                 onPress={''}
-                text='Register'
-                bgColor='#4838D1'
-                w={295}
-                h={56}
-                pad={15}
-            />
-            <CustomLoginButton
-                onPress={''}
-                text='Cancel'
+                text='Close'
                 bgColor='#FFFFFF'
                 fgColor='#4838D1'
                 w={295}
@@ -67,13 +54,15 @@ const styles = StyleSheet.create({
         width: 100
     },
     mainText: {
-        width: 267,
-        height: 60,
-        marginVertical: 10
+        width: 300,
+        height: 24,
+        marginBottom: 10
     },
     row: {
         flexDirection: 'row',
-        justifyContent: 'space-between',
-        padding: 20
-    }
+        alignSelf: 'flex-start',
+        alignItems: 'center',
+        marginLeft: 60,
+        marginBottom: 10
+    },
 });
