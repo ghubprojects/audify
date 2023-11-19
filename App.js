@@ -16,6 +16,7 @@ import { Fonts } from 'utils/enums';
 
 import { DocumentIcon, HomeIcon, SearchIcon } from 'assets/icons';
 import { neutral, primary } from 'styles/colors';
+import Login from 'screens/login/Login';
 
 const TABS = Object.freeze({
     HOME_TAB: 'HOME_TAB',

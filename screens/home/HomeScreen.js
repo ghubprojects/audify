@@ -39,6 +39,7 @@ const HomeScreen = ({ navigation }) => {
 
     return (
         <ScrollView style={styles.container}>
+        <Text>Hello</Text>
             <TheHeader style={styles.header} />
 
             <View style={styles.mainContent}>
