@@ -1,5 +1,6 @@
 import React from "react";
 import { StyleSheet, Text, View, Image, TextInput, Button, Pressable } from 'react-native';
+import { Fonts } from "utils/enums";
 
 const CustomLoginButton = ({ onPress, text, bgColor, fgColor, w, h, pad, bColor, bWidth, align, marginL }) => {
     return (
@@ -34,6 +35,7 @@ const styles = StyleSheet.create({
         borderRadius: 5,
     },
     text: {
+        fontFamily: Fonts.Poppins_400Regular,
         fontStyle: 'normal',
         color: 'white',
     }

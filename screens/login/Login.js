@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
-import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, Image, TouchableOpacity, Alert } from 'react-native';
 
-import { CustomLoginText } from 'components';
 import { CustomLoginButton } from 'components';
 import { CustomLoginInput } from 'components';
 import { LoginIconButton } from 'components';
@@ -10,6 +9,7 @@ import Logo from '../../assets/images/logo.png';
 import GoogleLogo from '../../assets/images/Google.png';
 import FacebookLogo from '../../assets/images/Facebook.png';
 import TwitterLogo from '../../assets/images/Twitter.png';
+import { Fonts } from 'utils/enums';
 
 import { useNavigation } from '@react-navigation/native';
 
@@ -19,22 +19,34 @@ export default function Login() {
     const navigation = useNavigation();
     return (
         <View style={styles.root}>
-            <Svg height='200' width='200' viewBox="-5 -10 50 50">
+            <Svg height='200' width='200' viewBox='-5 -10 50 50'>
                 <LogoLight />
             </Svg>
-            
-            <CustomLoginText
-                textValue='Login to Your Account'
-                marginVer={16}
-                align='flex-start'
-                marginL={60}
-                fweight={"bold"}
-            />
-            <CustomLoginInput placeholder='Email' />
-            <CustomLoginInput placeholder='Password' />
+
+            <Text
+                style={[
+                    styles.text,
+                    { alignSelf: 'flex-start'},
+                    { textAlign: 'left' },
+                    { marginBottom: 16},
+                    { marginLeft: 60 },
+                    { fontFamily: Fonts.Poppins_600SemiBold},
+                ]}
+            >
+                Login to Your Account
+            </Text>
+            <CustomLoginInput placeholder='Email' onChangeText={''} />
+            <CustomLoginInput placeholder='Password' onChangeText={''} />
             <View style={styles.row2}>
                 <TouchableOpacity style={styles.checkbox}></TouchableOpacity>
-                <CustomLoginText textValue={'Remember me'} fsize={12}/>
+                <Text
+                    style={[      
+                        {fontFamily: Fonts.Poppins_400Regular},
+                        {fontSize: 12},
+                    ]}
+                >
+                Remember me
+                </Text>
             </View>
             <CustomLoginButton
                 onPress={''}
@@ -53,18 +65,33 @@ export default function Login() {
                 h={29}
                 align='flex-end'
             />
-            <CustomLoginText textValue='Or login with' />
+            <Text
+                    style={[
+                        {fontFamily: Fonts.Poppins_400Regular},
+                        {fontSize: 14},
+                    ]}
+            >
+            Or login with
+                </Text>
             <View style={styles.row}>
                 <LoginIconButton onPress={''} bgColor='#FFFFFF' imgSrc={GoogleLogo} />
                 <LoginIconButton onPress={''} bgColor='#FFFFFF' imgSrc={FacebookLogo} />
                 <LoginIconButton onPress={''} bgColor='#FFFFFF' imgSrc={TwitterLogo} />
             </View>
             <View style={styles.row}>
-                <CustomLoginText textValue='Don’t have an accoun’t ? ' />
+                <Text
+                    style={[
+                        {fontFamily: Fonts.Poppins_400Regular},
+                        {fontSize: 14},
+                        {marginTop: 2}
+                    ]}
+            >
+                Don’t have an account ?
+            </Text>
                 <CustomLoginButton
                     onPress={''}
                     text='Register'
-                    bgColor='#FFFFFF'
+                    bgColor='#ffffff'
                     fgColor='#F77A55'
                     w={70}
                     h={24}
@@ -110,5 +137,10 @@ const styles = StyleSheet.create({
         borderColor: '#BBB1FA',
         borderRadius: 4,
         marginRight: 12
+    },
+    text: {
+        fontStyle: 'normal',
+        fontSize: 16,
+        color: '#2E2E5D'
     }
 });

@@ -1,10 +1,10 @@
 import React from "react";
 import { StyleSheet, Text, View, Image, TextInput, Button } from 'react-native';
 
-const CustomLoginInput = ({placeholder}) => {
+const CustomLoginInput = ({placeholder, onChangeText}) => {
     return (
         <View style={styles.container}>
-            <TextInput placeholder={placeholder} style={styles.input} />
+            <TextInput placeholder={placeholder} style={styles.input} onChangeText={onChangeText}/>
         </View>
     );
 };

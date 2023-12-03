@@ -1,9 +1,9 @@
 import React from 'react';
 import { StyleSheet, Text, View, Image, TextInput, Button } from 'react-native';
 import { LogoLight } from 'assets/icons/light';
-import { CustomLoginText } from 'components';
 import { CustomLoginButton } from 'components';
 import { CustomLoginInput } from 'components';
+import { Fonts } from 'utils/enums';
 
 import Svg from 'react-native-svg';
 
@@ -15,23 +15,28 @@ export default function Register() {
             <Svg height='200' width='200' viewBox='-5 -10 50 50'>
                 <LogoLight />
             </Svg>
-            <CustomLoginText
-                textValue='Register'
-                align='flex-start'
-                marginVer={10}
-                marginL={60}
-                fweight={'bold'}
-            />
+            <Text
+                style={[
+                    { alignSelf: 'flex-start'},
+                    { textAlign: 'left' },
+                    { marginBottom: 10},
+                    { marginLeft: 60 },
+                    { fontFamily: Fonts.Poppins_600SemiBold},
+                    { fontSize: 16}
+                ]}
+            >
+                Register
+            </Text>
             <CustomLoginInput placeholder='Email' />
             <CustomLoginInput placeholder='Password' />
             <CustomLoginInput placeholder='Date of Birth' />
             <Text style={styles.mainText}>
                 By signing up, you agree to our
-                <Text style={{ color: 'orange', fontSize: 14 }}> Terms</Text>
+                <Text style={{ color: 'orange' }}> Terms</Text>
                 <Text>, </Text>
-                <Text style={{ color: 'orange', fontSize: 14 }}>Data Policy</Text>
+                <Text style={{ color: 'orange' }}>Data Policy</Text>
                 <Text> and </Text>
-                <Text style={{ color: 'orange', fontSize: 14 }}>Cookies Policy.</Text>
+                <Text style={{ color: 'orange' }}>Cookies Policy.</Text>
             </Text>
             <CustomLoginButton
                 onPress={''}
@@ -67,6 +72,8 @@ const styles = StyleSheet.create({
         width: 100
     },
     mainText: {
+        fontFamily: Fonts.Poppins_400Regular,
+        fontSize: 12,
         width: 267,
         height: 60,
         marginVertical: 10
