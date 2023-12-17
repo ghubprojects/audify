@@ -10,9 +10,17 @@ import { reviewData } from 'utils/homepage-data';
 import { DocumentIcon } from 'assets/icons';
 import { PlayIcon } from 'assets/icons/light';
 import { neutral, primary } from 'styles/colors';
+import { ROUTES } from 'utils/constants';
 
-const DetailScreen = () => {
+const DetailScreen = ({ navigation }) => {
     const { current: currentBook } = useSelector((state) => state.book);
+
+    const navigateToPlayer = (book) => {
+        navigation.navigate(ROUTES.PLAYER, {
+            id: book.id,
+            name: book.title
+        });
+    };
 
     return (
         <ScrollView contentContainerStyle={styles.container}>
@@ -42,8 +50,8 @@ const DetailScreen = () => {
                 <CustomButton
                     type='primary'
                     title='Play Audio'
-                    onPress={() => console.log('Primary Button Pressed')}
-                    icon={<PlayIcon color={neutral.white} size={20} />}
+                    onPress={() => navigateToPlayer(currentBook)}
+                    icon={<PlayIcon type='outline' color={neutral.white} size={20} />}
                 />
                 <CustomButton
                     type='outline'

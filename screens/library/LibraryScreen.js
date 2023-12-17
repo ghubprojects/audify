@@ -1,19 +1,21 @@
+import React, { useState } from 'react';
 import { ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
 
-import { BookList } from 'features';
-import { CategoryButton, LibraryItem } from 'layouts/components';
+import { LibraryItem } from 'layouts/components';
 import TheHeader from 'layouts/components/TheHeader';
 
 import { neutral } from 'styles/colors';
-import {
-    latestSearch,
-    libraryBooks,
-    recommendedCategories,
-    searchResults
-} from 'utils/homepage-data';
 import { Fonts } from 'utils/enums';
+import { libraryBooks } from 'utils/homepage-data';
 
 const LibraryScreen = () => {
+    const [searchText, setSearchText] = useState('');
+    const filteredBooks = libraryBooks.filter(
+        (book) =>
+            book.title.toLowerCase().includes(searchText.toLowerCase()) ||
+            book.author.toLowerCase().includes(searchText.toLowerCase())
+    );
+
     return (
         <ScrollView style={styles.container}>
             <TheHeader style={styles.header} />
@@ -21,12 +23,17 @@ const LibraryScreen = () => {
             <View style={styles.mainContent}>
                 <View>
                     <Text style={styles.pageTitle}>My Books</Text>
-                    <TextInput placeholder='Search Book or Author...' style={styles.input} />
+                    <TextInput
+                        placeholder='Search Book or Author...'
+                        style={styles.input}
+                        value={searchText}
+                        onChangeText={(text) => setSearchText(text)}
+                    />
                 </View>
 
                 {/* Library Books Section */}
                 <View style={styles.libraryBooks}>
-                    {libraryBooks.map((book) => (
+                    {filteredBooks.map((book) => (
                         <LibraryItem key={book.id} book={book} />
                     ))}
                 </View>

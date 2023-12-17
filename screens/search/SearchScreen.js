@@ -86,7 +86,6 @@ const styles = StyleSheet.create({
         lineHeight: 20,
 
         backgroundColor: neutral[5]
-        // color: neutral[40]
     },
 
     //
