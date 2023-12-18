@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { useDispatch } from 'react-redux';
 
@@ -10,19 +10,26 @@ import { getListAll, setCurrent } from 'slices/bookSlice';
 import { neutral, primary } from 'styles/colors';
 import { ROUTES } from 'utils/constants';
 import { Fonts } from 'utils/enums';
-import {
-    bestSellers,
-    categories,
-    newReleases,
-    recommendedBooks,
-    trendings
-} from 'utils/homepage-data';
+import { bestSellers, newReleases, trendings } from 'utils/homepage-data';
+
+import * as bookService from 'services/book';
+import * as categoryService from 'services/category';
 
 const HomeScreen = ({ navigation }) => {
     const dispatch = useDispatch();
+    const [categories, setCategories] = useState([]);
+    const [recommendedBooks, setRecommendedBooks] = useState([]);
 
     useEffect(() => {
         dispatch(getListAll());
+        categoryService
+            .getAllAsync()
+            .then((res) => setCategories(res.data))
+            .catch((err) => console.log(err));
+        bookService
+            .getTop10BookRateAsync()
+            .then((res) => setRecommendedBooks(res.data))
+            .catch((err) => console.log(err));
     }, []);
 
     /**
@@ -30,9 +37,10 @@ const HomeScreen = ({ navigation }) => {
      * @param {object} book sách được lựa chọn
      */
     const handlePressBook = (book) => {
+        console.log(book);
         dispatch(setCurrent(book));
         navigation.navigate(ROUTES.DETAIL, {
-            id: book.id,
+            id: book.bookId,
             name: book.title
         });
     };
@@ -54,8 +62,8 @@ const HomeScreen = ({ navigation }) => {
                     <ScrollView horizontal contentContainerStyle={styles.contentContainer}>
                         {categories.map((category) => (
                             <CategoryButton
-                                key={category.id}
-                                category={category}
+                                key={category['categoryId']}
+                                category={category['name']}
                                 wrapList={false}
                             />
                         ))}
@@ -70,10 +78,14 @@ const HomeScreen = ({ navigation }) => {
                             <Text style={styles.seeMore}>See more</Text>
                         </TouchableOpacity>
                     </View>
+
                     <ScrollView horizontal contentContainerStyle={styles.contentContainer}>
                         {recommendedBooks.map((book) => (
-                            <TouchableOpacity key={book.id} onPress={() => handlePressBook(book)}>
-                                <Image source={book.poster} style={styles.poster} />
+                            <TouchableOpacity
+                                key={book.bookId}
+                                onPress={() => handlePressBook(book)}
+                            >
+                                <Image source={{ uri: book.coverImgURL }} style={styles.poster} />
                             </TouchableOpacity>
                         ))}
                     </ScrollView>
@@ -88,23 +100,24 @@ const HomeScreen = ({ navigation }) => {
                         </TouchableOpacity>
                     </View>
                     <ScrollView horizontal contentContainerStyle={styles.contentContainer}>
-                        {bestSellers.map((book) => (
+                        {recommendedBooks.map((book) => (
                             <TouchableOpacity
                                 style={styles.bestItem}
-                                key={book.id}
+                                key={book.bookId}
                                 onPress={() => handlePressBook(book)}
                             >
-                                <Image source={book.poster} style={styles.bestImage} />
+                                <Image
+                                    source={{ uri: book.coverImgURL }}
+                                    style={styles.bestImage}
+                                />
                                 <View style={styles.bestDetails}>
                                     <View style={styles.titleAndAuthor}>
                                         <Text style={styles.title}>{book.title}</Text>
                                         <Text style={styles.author}>{book.author}</Text>
                                     </View>
                                     <View style={styles.moreDetails}>
-                                        <StarRating rating={book.rating} />
-                                        <Text style={styles.author}>
-                                            {book.listenersNumber}+ Listeners
-                                        </Text>
+                                        <StarRating rating={book.rate} />
+                                        <Text style={styles.author}>{book.view}+ Listeners</Text>
                                     </View>
                                 </View>
                             </TouchableOpacity>
@@ -113,10 +126,14 @@ const HomeScreen = ({ navigation }) => {
                 </View>
 
                 {/* New Releases Section */}
-                <BookList title='New Releases' list={newReleases} seeMoreUrl={ROUTES.NEW_RELEASE} />
+                <BookList
+                    title='New Releases'
+                    list={recommendedBooks}
+                    seeMoreUrl={ROUTES.NEW_RELEASE}
+                />
 
                 {/* Trending Section */}
-                <BookList title='Trending Now' list={trendings} />
+                <BookList title='Trending Now' list={recommendedBooks} />
             </View>
         </ScrollView>
     );

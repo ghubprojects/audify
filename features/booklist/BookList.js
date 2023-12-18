@@ -21,7 +21,7 @@ const BookList = ({ title, seeMoreUrl, list, wrapList, wrapTitle = true, showAut
             <ScrollView horizontal={!wrapList} contentContainerStyle={styles.bookList}>
                 {list.map((book) => (
                     <BookListItem
-                        key={book.id}
+                        key={book.bookId}
                         book={book}
                         wrapTitle={wrapTitle}
                         showAuthor={showAuthor}

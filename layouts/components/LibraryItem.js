@@ -18,14 +18,14 @@ const LibraryItem = ({ book }) => {
     const handlePressBook = (book) => {
         dispatch(setCurrent(book));
         navigation.navigate(ROUTES.DETAIL, {
-            id: book.id,
+            id: book.bookId,
             name: book.title
         });
     };
 
     return (
         <TouchableOpacity style={styles.wrapper} onPress={() => handlePressBook(book)}>
-            <Image source={book.poster} style={styles.poster} />
+            <Image source={{ uri: book.coverImgURL }} style={styles.poster} />
             <View style={styles.titleAndAuthor}>
                 <Text style={styles.title}>{book.title}</Text>
                 <Text style={styles.author}>{book.author}</Text>

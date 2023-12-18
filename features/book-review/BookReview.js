@@ -7,6 +7,7 @@ import { Fonts } from 'utils/enums';
 import BookReviewItem from './BookReviewItem';
 
 const BookReview = ({ data }) => {
+    console.log(111, data);
     const [activeSlide, setActiveSlide] = useState(0);
 
     return (

@@ -15,6 +15,9 @@ export { default as PauseIcon } from './PauseIcon.js';
 export { default as PreviousIcon } from './Previous.svg';
 export { default as UnmuteIcon } from './Unmute.svg';
 export { default as UploadIcon } from './Upload.svg';
+export { default as RepeatIcon } from './Repeat.svg';
+export { default as Repeat1Icon } from './Repeat1.svg';
+export { default as UserHeadsetIcon } from './UserHeadset.svg';
 
 export { default as BookmarkIcon } from './Bookmark.svg';
 export { default as DownloadIcon } from './Download.svg';

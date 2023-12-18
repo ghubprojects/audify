@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
 
 import { LibraryItem } from 'layouts/components';
@@ -6,15 +6,19 @@ import TheHeader from 'layouts/components/TheHeader';
 
 import { neutral } from 'styles/colors';
 import { Fonts } from 'utils/enums';
-import { libraryBooks } from 'utils/homepage-data';
+
+import * as bookService from 'services/book';
 
 const LibraryScreen = () => {
     const [searchText, setSearchText] = useState('');
-    const filteredBooks = libraryBooks.filter(
-        (book) =>
-            book.title.toLowerCase().includes(searchText.toLowerCase()) ||
-            book.author.toLowerCase().includes(searchText.toLowerCase())
-    );
+    const [filteredBooks, setFilteredBooks] = useState([]);
+
+    useEffect(() => {
+        bookService
+            .searchBooks(searchText)
+            .then((res) => setFilteredBooks(res.data))
+            .catch((err) => console.log(err));
+    }, [searchText]);
 
     return (
         <ScrollView style={styles.container}>
@@ -34,7 +38,7 @@ const LibraryScreen = () => {
                 {/* Library Books Section */}
                 <View style={styles.libraryBooks}>
                     {filteredBooks.map((book) => (
-                        <LibraryItem key={book.id} book={book} />
+                        <LibraryItem key={book.bookId} book={book} />
                     ))}
                 </View>
             </View>

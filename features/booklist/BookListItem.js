@@ -16,16 +16,17 @@ const BookListItem = ({ book, wrapTitle, showAuthor }) => {
      * @param {object} book sách được lựa chọn
      */
     const handlePressBook = (book) => {
+        console.log(book);
         dispatch(setCurrent(book));
         navigation.navigate(ROUTES.DETAIL, {
-            id: book.id,
+            id: book.bookId,
             name: book.title
         });
     };
 
     return (
         <TouchableOpacity onPress={() => handlePressBook(book)}>
-            <Image source={book.poster} style={styles.poster} />
+            <Image source={{ uri: book.coverImgURL }} style={styles.poster} />
             <Text numberOfLines={wrapTitle ? 0 : 1} style={styles.title}>
                 {book.title}
             </Text>
