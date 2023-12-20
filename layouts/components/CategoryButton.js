@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { StyleSheet, Text, TouchableOpacity } from 'react-native';
 
 import { neutral } from 'styles/colors';
@@ -10,7 +11,7 @@ const CategoryButton = ({ category, icon, wrapList }) => {
         <TouchableOpacity style={categoryClass}>
             {icon}
             <Text numberOfLines={1} style={titleClass}>
-                {category.name}
+                {category}
             </Text>
         </TouchableOpacity>
     );

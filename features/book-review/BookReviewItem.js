@@ -3,44 +3,44 @@ import { Image, StyleSheet, Text, View } from 'react-native';
 import { neutral } from 'styles/colors';
 import { Fonts } from 'utils/enums';
 
+const getRelativeTimeDifference = (date1, date2) => {
+    console.log(date1, date2);
+    const timeDifference = date2 - date1;
+    const secondsDifference = timeDifference / 1000;
+
+    if (secondsDifference < 60) {
+        const seconds = Math.floor(secondsDifference);
+        return `${seconds} ${seconds === 1 ? 'second' : 'seconds'} ago`;
+    } else if (secondsDifference < 3600) {
+        const minutes = Math.floor(secondsDifference / 60);
+        return `${minutes} ${minutes === 1 ? 'minute' : 'minutes'} ago`;
+    } else if (secondsDifference < 86400) {
+        const hours = Math.floor(secondsDifference / 3600);
+        return `${hours} ${hours === 1 ? 'hour' : 'hours'} ago`;
+    } else {
+        const days = Math.floor(secondsDifference / 86400);
+        return `${days} ${days === 1 ? 'day' : 'days'} ago`;
+    }
+};
+
 const BookReviewItem = ({ item, index }) => {
-    const getRelativeTimeDifference = (date1, date2) => {
-        console.log(date1, date2);
-        const timeDifference = date2 - date1;
-        const secondsDifference = timeDifference / 1000;
-
-        if (secondsDifference < 60) {
-            const seconds = Math.floor(secondsDifference);
-            return `${seconds} ${seconds === 1 ? 'second' : 'seconds'} ago`;
-        } else if (secondsDifference < 3600) {
-            const minutes = Math.floor(secondsDifference / 60);
-            return `${minutes} ${minutes === 1 ? 'minute' : 'minutes'} ago`;
-        } else if (secondsDifference < 86400) {
-            const hours = Math.floor(secondsDifference / 3600);
-            return `${hours} ${hours === 1 ? 'hour' : 'hours'} ago`;
-        } else {
-            const days = Math.floor(secondsDifference / 86400);
-            return `${days} ${days === 1 ? 'day' : 'days'} ago`;
-        }
-    };
-
     return (
         <View style={styles.wrapper}>
             <View style={styles.header}>
                 <View>
-                    <Image source={item.avatar} style={styles.avatar} />
+                    <Image source={require('assets/images/avatar.jpg')} style={styles.avatar} />
                 </View>
                 <View style={styles.readerAndRating}>
-                    <Text style={styles.reader}>{item.reader}</Text>
+                    <Text style={styles.reader}>{`${item.firstName} ${item.lastName}`}</Text>
                     <View style={styles.ratingDetail}>
-                        <StarRating rating={item.rating} size={16} />
-                        <Text style={styles.ratingDate}>
+                        <StarRating rating={item.rate} size={16} />
+                        {/* <Text style={styles.ratingDate}>
                             {getRelativeTimeDifference(item.createdDate, new Date())}
-                        </Text>
+                        </Text> */}
                     </View>
                 </View>
             </View>
-            <Text style={styles.content}>{item.content}</Text>
+            <Text style={styles.content}>{item.comment}</Text>
         </View>
     );
 };

@@ -1,9 +1,8 @@
-import React from 'react';
-import { TouchableOpacity, Text, View, StyleSheet } from 'react-native';
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { neutral, primary } from 'styles/colors';
 import { Fonts } from 'utils/enums';
 
-const CustomButton = ({ type = 'primary', title, onPress, icon }) => {
+const CustomButton = ({ type = 'primary', title, icon, onPress }) => {
     const getPrimaryStyle = () => {
         if (title && icon) return styles.primaryWithIcon;
         else if (title && !icon) return styles.primaryOnlyTitle;
@@ -41,6 +40,7 @@ const styles = StyleSheet.create({
         paddingHorizontal: 16,
 
         alignItems: 'center',
+        justifyContent: 'center',
         flexDirection: 'row',
         gap: 12
     },
@@ -56,6 +56,7 @@ const styles = StyleSheet.create({
 
     // Outline Button Style
     outline: {
+        flex: 1,
         borderWidth: 1,
         borderColor: primary[50],
         backgroundColor: neutral.white

@@ -4,7 +4,8 @@ import { bookList } from 'utils/homepage-data';
 const initialState = {
     listAll: [],
     list: [],
-    current: {}
+    current: {},
+    chapter: 1
 };
 
 export const bookSlice = createSlice({
@@ -15,11 +16,14 @@ export const bookSlice = createSlice({
             state.listAll = bookList;
         },
         setCurrent: (state, action) => {
-            state.current = state.listAll.find((book) => book.id === action.payload.id);
+            state.current = action.payload;
+        },
+        setChapter: (state, action) => {
+            state.chapter = action.payload;
         }
     }
 });
 
-export const { getListAll, setCurrent } = bookSlice.actions;
+export const { getListAll, setCurrent, setChapter } = bookSlice.actions;
 
 export default bookSlice.reducer;

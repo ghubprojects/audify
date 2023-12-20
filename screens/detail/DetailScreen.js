@@ -10,31 +10,51 @@ import { reviewData } from 'utils/homepage-data';
 import { DocumentIcon } from 'assets/icons';
 import { PlayIcon } from 'assets/icons/light';
 import { neutral, primary } from 'styles/colors';
+import { ROUTES } from 'utils/constants';
+import { useEffect, useState } from 'react';
+import * as bookService from 'services/book';
 
-const DetailScreen = () => {
+const DetailScreen = ({ navigation }) => {
+    const [bookData, setBookData] = useState({});
     const { current: currentBook } = useSelector((state) => state.book);
+
+    useEffect(() => {
+        console.log(currentBook);
+        bookService
+            .getByIdAsync(currentBook.bookId)
+            .then((res) => {
+                setBookData(res.data);
+                console.log(res.data);
+            })
+            .catch((err) => console.log(err));
+    }, []);
+
+    const navigateToPlayer = (book) => {
+        navigation.navigate(ROUTES.PLAYER, {
+            id: book.bookId,
+            name: book.title
+        });
+    };
 
     return (
         <ScrollView contentContainerStyle={styles.container}>
             <View style={styles.posterWrapper}>
-                <Image source={currentBook.poster} style={styles.poster} />
+                <Image source={{ uri: bookData.coverImgURL }} style={styles.poster} />
             </View>
 
             <View style={styles.titleAndAuthor}>
-                <Text style={styles.title}>{currentBook.title}</Text>
-                <Text style={styles.author}>{currentBook.author}</Text>
+                <Text style={styles.title}>{bookData.title}</Text>
+                <Text style={styles.author}>{bookData.author}</Text>
             </View>
 
             <View style={styles.ratingAndCategories}>
                 <View style={styles.ratingWrapper}>
-                    <StarRating rating={currentBook.rating} size={24} />
-                    <Text style={styles.rating}>{currentBook.rating.toPrecision(2)}</Text>
+                    <StarRating rating={bookData.rate} size={24} />
+                    <Text style={styles.rating}>{bookData.rate}</Text>
                 </View>
 
                 <View style={styles.categories}>
-                    {currentBook.categories.map((category, index) => (
-                        <Badge key={index} title={category} />
-                    ))}
+                    <Badge title={bookData.category} />
                 </View>
             </View>
 
@@ -42,8 +62,8 @@ const DetailScreen = () => {
                 <CustomButton
                     type='primary'
                     title='Play Audio'
-                    onPress={() => console.log('Primary Button Pressed')}
-                    icon={<PlayIcon color={neutral.white} size={20} />}
+                    onPress={() => navigateToPlayer(bookData)}
+                    icon={<PlayIcon type='outline' color={neutral.white} size={20} />}
                 />
                 <CustomButton
                     type='outline'
@@ -62,7 +82,7 @@ const DetailScreen = () => {
 
             <View style={styles.review}>
                 <Text style={styles.reviewTitle}>Review</Text>
-                <BookReview data={reviewData} />
+                <BookReview data={bookData.assess ?? []} />
             </View>
         </ScrollView>
     );

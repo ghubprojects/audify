@@ -7,8 +7,27 @@ import TheHeader from 'layouts/components/TheHeader';
 import { neutral } from 'styles/colors';
 import { latestSearch, recommendedCategories, searchResults } from 'utils/homepage-data';
 import { Fonts } from 'utils/enums';
+import { useEffect, useState } from 'react';
+
+import * as bookService from 'services/book';
+import * as categoryService from 'services/category';
 
 const SearchScreen = () => {
+    const [searchText, setSearchText] = useState('');
+    const [filteredBooks, setFilteredBooks] = useState([]);
+    const [categories, setCategories] = useState([]);
+
+    useEffect(() => {
+        categoryService
+            .getAllAsync()
+            .then((res) => setCategories(res.data.slice(0, 4)))
+            .catch((err) => console.log(err));
+        bookService
+            .searchBooks(searchText)
+            .then((res) => setFilteredBooks(res.data))
+            .catch((err) => console.log(err));
+    }, [searchText]);
+
     return (
         <ScrollView style={styles.container}>
             <TheHeader style={styles.header} />
@@ -16,7 +35,12 @@ const SearchScreen = () => {
             <View style={styles.mainContent}>
                 <View>
                     <Text style={styles.pageTitle}>Explore</Text>
-                    <TextInput placeholder='Search Book or Author...' style={styles.input} />
+                    <TextInput
+                        placeholder='Search Book or Author...'
+                        style={styles.input}
+                        value={searchText}
+                        onChangeText={(text) => setSearchText(text)}
+                    />
                 </View>
 
                 {/* Categories Section */}
@@ -26,11 +50,11 @@ const SearchScreen = () => {
                     </View>
 
                     <View style={styles.contentContainer}>
-                        {recommendedCategories.map((category) => (
+                        {categories.map((category) => (
                             <CategoryButton
-                                key={category.id}
-                                category={category}
-                                icon={category.icon}
+                                key={category.categoryId}
+                                category={category.name}
+                                // icon={category.icon}
                                 wrapList={true}
                             />
                         ))}
@@ -38,12 +62,12 @@ const SearchScreen = () => {
                 </View>
 
                 {/* Latest Search Section */}
-                <BookList title='Latest Search' list={latestSearch} />
+                {/* <BookList title='Latest Search' list={latestSearch} /> */}
 
                 {/* Search results Section */}
                 <BookList
                     title='Search Results'
-                    list={searchResults}
+                    list={filteredBooks}
                     wrapList={true}
                     wrapTitle={false}
                     showAuthor={true}
@@ -86,7 +110,6 @@ const styles = StyleSheet.create({
         lineHeight: 20,
 
         backgroundColor: neutral[5]
-        // color: neutral[40]
     },
 
     //
