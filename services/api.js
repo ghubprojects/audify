@@ -1,10 +1,13 @@
 import axios from 'axios';
+import SyncStorage from 'sync-storage';
 
+const authToken = SyncStorage.get('authToken');
 const request = axios.create({
-    baseURL: 'https://00c8-113-190-233-237.ngrok-free.app/api/',
-    headers: {
-        Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFkbWluQGdtYWlsLmNvbSIsInVzZXJJZCI6IjFjMDQ5M2ZjLWYwZmEtNGFjOS04ODMxLTUxMGRhYTZlYzhhZSIsImlhdCI6MTcwMjg0Njg2MH0.pyQIZIlCEQnrQIYcI1N2Vu8KzuiIaPs3jswMSmtqlMw`
-    }
+    baseURL: 'https://4928-1-53-8-79.ngrok-free.app/api/',
+    // headers: {
+    //     Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImtrMTllbGV2YW5odXlAZ21haWwuY29tIiwidXNlcklkIjoiZWI4OTEwYjktNmEzNS00ZjkwLWJkMDEtMDgwZGU2NTBhOTkzIiwiaWF0IjoxNzAzMzgyNzg0fQ.GJAYG4qtbJ6iDD_zDcxbo9TBU5SLG9eRglkoxORFLeU`
+    // }
+    //headers: authToken ? { authorization: `Bearer ${authToken}` } : undefined
 });
 
 export const get = async (url, configs = {}) => {

@@ -1,14 +1,43 @@
 import { useNavigation } from '@react-navigation/native';
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Alert, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 import { FacebookIcon, GoogleIcon, LogoLight, TwitterIcon } from 'assets/icons/light';
 import { CustomButton, CustomInput } from 'components';
 import { accent, neutral } from 'styles/colors';
 import { ROUTES } from 'utils/constants';
 import { Fonts } from 'utils/enums';
+import { useEffect, useState } from 'react';
+
+import * as userService from 'services/user';
+import SyncStorage from 'sync-storage';
 
 const Login = () => {
     const navigation = useNavigation();
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    // const handleLogin = (email, password) => {
+    //     console.log(email, password);
+    //     const response = userService.login(email, password);
+    //     console.log(response);
+    // };
+    const login = async () => {
+        try {
+            const response = await userService.login(email, password);
+            console.log("Login " +  response.status);
+            if (response.status == 200) {
+                console.log(response.data.accessToken);
+                SyncStorage.set('authToken', response.data.accessToken);
+                console.log(SyncStorage.get('authToken'));
+                navigation.navigate('Root');
+            }
+            else {
+                console.log(response.status);
+            }
+        } catch (error) {
+            console.log('Failed to login', error);
+            
+        }
+    };
 
     return (
         <View style={styles.container}>
@@ -19,10 +48,20 @@ const Login = () => {
             <View style={styles.loginForm}>
                 <Text style={styles.formTitle}>Login to Your Account</Text>
 
-                <CustomInput placeholder='Email' onChangeText={() => {}} />
-                <CustomInput placeholder='Password' onChangeText={() => {}} />
+                <CustomInput
+                    placeholder='Email'
+                    value={email}
+                    onChangeText={(text) => setEmail(text)}
+                />
+                <CustomInput
+                    placeholder='Password'
+                    value={password}
+                    onChangeText={(text) => setPassword(text)}
+                />
 
-                <CustomButton title='Login' onPress={() => navigation.navigate('Root')} />
+                {/* <CustomButton title='Login' onPress={() => navigation.navigate('Root')} /> */}
+
+                <CustomButton title='Login' onPress={() => login()} />
 
                 <TouchableOpacity
                     style={styles.forgetPasswordBtn}
