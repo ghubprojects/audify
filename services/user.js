@@ -18,3 +18,8 @@ export const login = async (email, password) => {
 //         console.log(error);
 //     }
 // }
+export const register = async (email, password, firstName, lastName) => {
+        const response = await httpRequest.post(endpoint + '/register', { email, password, firstName, lastName });
+        //console.log("userService " + response.data.Message);
+        return response;
+}

@@ -3,8 +3,11 @@ import { CustomInput, CustomLoginButton } from 'components';
 import { StyleSheet, Text, View } from 'react-native';
 import { neutral } from 'styles/colors';
 import { Fonts } from 'utils/enums';
+import { useNavigation } from '@react-navigation/native';
+import { ROUTES } from 'utils/constants';
 
 export default function ForgetPassWord() {
+    const navigation = useNavigation();
     return (
         <View style={styles.container}>
             <View style={styles.logoWrapper}>
@@ -26,16 +29,16 @@ export default function ForgetPassWord() {
                 style={[
                     { width: 292 },
                     { fontFamily: Fonts.Poppins_400Regular },
-                    { fontSize: 14 },
+                    { fontSize: 13 },
                     { marginBottom: 10 }
                 ]}
             >
                 Please fill email or phone number and we will send you a link to get back into your
                 account.
             </Text>
-            <CustomInput placeholder='Email/ Phone Number' />
+            <CustomInput width={295} placeholder='Fill your email...' />
             <CustomLoginButton
-                onPress={''}
+                onPress={() => navigation.navigate(ROUTES.LOGIN)}
                 text='Submit'
                 bgColor='#4838D1'
                 w={295}
@@ -43,7 +46,7 @@ export default function ForgetPassWord() {
                 pad={15}
             />
             <CustomLoginButton
-                onPress={''}
+                onPress={() => navigation.navigate(ROUTES.LOGIN)}
                 text='Cancel'
                 bgColor='#FFFFFF'
                 fgColor='#4838D1'
@@ -58,7 +61,7 @@ export default function ForgetPassWord() {
 
 const styles = StyleSheet.create({
     container: {
-        paddingHorizontal: 40,
+        paddingHorizontal: 50,
         backgroundColor: neutral.white,
         height: '100%'
     },
