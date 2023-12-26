@@ -16,6 +16,7 @@ import {
     ForgetPassword,
     Login,
     Register,
+    ResetPassword,
     getHomeStackNavigator,
     getLibraryStackNavigator,
     getSearchStackNavigator
@@ -138,6 +139,11 @@ function App() {
                     <Stack.Screen
                         name={ROUTES.CONFIRM_EMAIL}
                         component={Confirm}
+                        options={{ headerShown: false }}
+                    />
+                    <Stack.Screen
+                        name={ROUTES.RESET_PASSWORD}
+                        component={ResetPassword}
                         options={{ headerShown: false }}
                     />
                 </Stack.Navigator>

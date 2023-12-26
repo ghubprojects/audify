@@ -23,3 +23,16 @@ export const register = async (email, password, firstName, lastName) => {
         //console.log("userService " + response.data.Message);
         return response;
 }
+export const sendResetCode = async (email) => {
+        const response = await httpRequest.post(endpoint + '/sendResetCode', { email });
+        return response;
+}
+export const verifyResetCode = async (email, code) => {
+        const response = await httpRequest.post(endpoint + '/verifyResetCode', { email, code });
+        return response;
+}
+export const resetPass = async (newPassword, authToken) => {
+        //const response = await httpRequest.post(endpoint + '/resetPassword', { newPassword });
+        const response = await httpRequest.postWithToken(endpoint + '/resetPassword', { newPassword }, authToken);
+        return response;
+}

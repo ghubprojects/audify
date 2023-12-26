@@ -2,32 +2,29 @@ import React from 'react';
 import { StyleSheet, Text, View, Image, TextInput, Button } from 'react-native';
 import { LogoLight } from 'assets/icons/light';
 import { CustomLoginButton } from 'components';
-import { CustomInput } from 'components';
-
 import { Fonts } from 'utils/enums';
-import Svg from 'react-native-svg';
 
-import Logo from '../../assets/images/logo.png';
+import Svg from 'react-native-svg';
 import { useNavigation } from '@react-navigation/native';
 import { useState } from 'react';
-import SyncStorage from 'sync-storage';
-import * as userService from 'services/user';
 import { ROUTES } from 'utils/constants';
+import SyncStorage from 'sync-storage';
+import { CustomInput } from 'components';
+import * as userService from 'services/user';
 
-export default function Confirm() {
+export default function ResetPass() {
+    const resetPassToken = SyncStorage.get('resetPassToken');
     const navigation = useNavigation();
-    const [code, setCode] = useState();
+    const [password, setPassword] = useState();
     const [visible, setVisible] = useState(false);
     const [message, setMessage] = useState('');
-    const verifyCode = async () => {
+    const resetPassword = async () => {
         try {
-            const response = await userService.verifyResetCode(SyncStorage.get('emailSent'), code);
-            console.log('VerifyResetCode ' + response.status);
+            const response = await userService.resetPass(password, resetPassToken);
+            console.log('ResetPassword ' + response.status);
             if (response.status == 200) {
                 console.log(response.data);
-                SyncStorage.set('resetPassToken', response.data.accessToken);
-                setVisible(false);
-                navigation.navigate(ROUTES.RESET_PASSWORD);
+                navigation.navigate(ROUTES.LOGIN);
             } else {
                 console.log(response.status);
                 console.log(response.data);
@@ -35,28 +32,13 @@ export default function Confirm() {
         } catch (error) {
             console.log('Error: ', error);
             if (error.response && error.response.status == 400) {
+                console.log('Error: ', error.response.data.message);
                 setMessage(error.response.data.message);
                 setVisible(true);
             } else {
-                console.log('Failed to verify reset code', error);
+                console.log('Failed to reset password', error);
                 setMessage(error.response.status);
             }
-        }
-    };
-    const resendCode = async () => {
-        try {
-            const response = await userService.sendResetCode(SyncStorage.get('emailSent'));
-            console.log('Resend code ' + response.status);
-            if (response.status == 200) {
-                console.log(response.data);
-                setMessage(response.data.message);
-                setVisible(true);
-            } else {
-                console.log(response.status);
-                console.log(response.data);
-            }
-        } catch (error) {
-            console.log('Failed to login', error);
         }
     };
     return (
@@ -68,64 +50,48 @@ export default function Confirm() {
                 style={[
                     { fontFamily: Fonts.Poppins_600SemiBold },
                     { fontSize: 16 },
-                    { marginBottom: 16 },
+                    { marginBottom: 10 },
                     { alignSelf: 'flex-start' },
                     { marginLeft: 60 }
                 ]}
             >
-                Confirmation Code
+                Reset Password
             </Text>
             <Text
                 style={[
+                    { width: 292 },
                     { fontFamily: Fonts.Poppins_400Regular },
                     { fontSize: 14 },
-                    { marginTop: 5 }
-                ]}
-            >
-                Enter the confirmation code we sent to
-            </Text>
-            <Text
-                style={[
-                    { fontFamily: Fonts.Poppins_600SemiBold },
-                    { fontSize: 14 },
-                    { alignSelf: 'flex-start' },
-                    { marginLeft: 60 },
                     { marginBottom: 10 }
                 ]}
             >
-                {SyncStorage.get('emailSent')}.
+                Please enter your new password for{' '}
+                <Text
+                    style={[
+                        { fontFamily: Fonts.Poppins_600SemiBold },
+                        { fontSize: 14 },
+                        { alignSelf: 'flex-start' },
+                        { marginLeft: 60 },
+                        { marginBottom: 10 }
+                    ]}
+                >
+                    {''}
+                    {SyncStorage.get('emailSent')}
+                </Text>{' '}
+                before login again.
             </Text>
             <CustomInput
-                value={code}
-                onChangeText={(text) => setCode(text)}
-                placeholder='Confirmation Code'
+                value={password}
+                onChangeText={(text) => setPassword(text)}
+                placeholder='New password...'
                 width={295}
                 marginBottom={15}
             />
             <Text style={[{ color: 'red' }, { opacity: visible ? 1 : 0 }, { width: 295 }]}>
                 {message}
             </Text>
-            <View style={styles.row}>
-                <Text
-                    style={[
-                        { height: 20 },
-                        { fontFamily: Fonts.Poppins_400Regular },
-                        { marginRight: 2 }
-                    ]}
-                >
-                    Didn’t receive the code?
-                </Text>
-                <CustomLoginButton
-                    onPress={() => resendCode()}
-                    text='Resend'
-                    bgColor='#FFFFFF'
-                    fgColor='#F77A55'
-                    w={60}
-                    h={20}
-                />
-            </View>
             <CustomLoginButton
-                onPress={() => verifyCode()}
+                onPress={() => resetPassword()}
                 text='Submit'
                 bgColor='#4838D1'
                 w={295}
@@ -133,7 +99,7 @@ export default function Confirm() {
                 pad={15}
             />
             <CustomLoginButton
-                onPress={() => navigation.navigate(ROUTES.FORGET_PASSWORD)}
+                onPress={() => navigation.navigate(ROUTES.CONFIRM_EMAIL)}
                 text='Back'
                 bgColor='#FFFFFF'
                 fgColor='#4838D1'

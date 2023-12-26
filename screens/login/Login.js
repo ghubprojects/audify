@@ -15,6 +15,8 @@ const Login = () => {
     const navigation = useNavigation();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [visible, setVisible] = useState(false);
+    const [message, setMessage] = useState('');
     // const handleLogin = (email, password) => {
     //     console.log(email, password);
     //     const response = userService.login(email, password);
@@ -23,22 +25,36 @@ const Login = () => {
     const login = async () => {
         try {
             const response = await userService.login(email, password);
-            console.log("Login " +  response.status);
+            console.log('Login ' + response.status);
             if (response.status == 200) {
                 console.log(response.data.accessToken);
                 SyncStorage.set('authToken', response.data.accessToken);
                 console.log(SyncStorage.get('authToken'));
+                setVisible(false);
                 navigation.navigate('Root');
-            }
-            else {
+            } else {
                 console.log(response.status);
             }
         } catch (error) {
             console.log('Failed to login', error);
-            
+            if(error.response && error.response.status == 400){
+                setMessage(error.response.data.message);
+                setVisible(true);
+            }
+            else {
+                console.log('Failed to login', error);
+                setMessage(error.response.status);
+            }
         }
     };
-
+    const forgetPassword = () => {
+        setVisible(false);
+        navigation.navigate(ROUTES.FORGET_PASSWORD)
+    }
+    const register = () => {
+        setVisible(false);
+        navigation.navigate(ROUTES.SIGN_UP)
+    }
     return (
         <View style={styles.container}>
             <View style={styles.logoWrapper}>
@@ -59,13 +75,15 @@ const Login = () => {
                     onChangeText={(text) => setPassword(text)}
                 />
 
+                <Text style={[{color: 'red'}, {opacity: visible ? 1 : 0}]} >{message}</Text>
+
                 {/* <CustomButton title='Login' onPress={() => navigation.navigate('Root')} /> */}
 
                 <CustomButton title='Login' onPress={() => login()} />
 
                 <TouchableOpacity
                     style={styles.forgetPasswordBtn}
-                    onPress={() => navigation.navigate(ROUTES.FORGET_PASSWORD)}
+                    onPress={() => forgetPassword()}
                 >
                     <Text style={styles.linkBtn}>Forget password ?</Text>
                 </TouchableOpacity>
@@ -83,7 +101,7 @@ const Login = () => {
                 <Text style={styles.registerText}>Don’t have an account ? </Text>
                 <TouchableOpacity
                     style={styles.registerBtn}
-                    onPress={() => navigation.navigate(ROUTES.SIGN_UP)}
+                    onPress={() => register()}
                 >
                     <Text style={styles.linkBtn}>Register</Text>
                 </TouchableOpacity>

@@ -14,26 +14,39 @@ import Svg from 'react-native-svg';
 import Logo from '../../assets/images/logo.png';
 import { Fonts } from 'utils/enums';
 
+import SyncStorage from 'sync-storage';
+
 export default function Register() {
     const navigation = useNavigation();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
+    const [message, setMessage] = useState('');
+    const [visible, setVisible] = useState(false);
+    const res = 'a';
     const register = async () => {
         try {
             const response = await userService.register(email, password, firstName, lastName);
+            response = res;
             console.log('Register ' + response.status);
             if (response.status == 200) {
                 console.log(response.data);
-                Alert.alert("Register successfully");
+                setVisible(false);
                 navigation.navigate(ROUTES.LOGIN);
-            } else {
-                console.log(response.status);
-                console.log(response.data);
-            }
+            } 
         } catch (error) {
-            console.log('Failed to register', error);
+            // console.log('Failed to register', error);
+            // console.log(res.status);
+            // setVisible(true);
+            //SyncStorage.set('registerMessage', 'helo');
+            if (error.response && error.response.status == 400) {
+                setMessage(error.response.data.message);
+                console.log('Failed to register:', message);
+                setVisible(true);
+            } else {
+                console.log('Failed to register', error);
+            }
         }
     };
     return (
@@ -83,6 +96,9 @@ export default function Register() {
                 onChangeText={(text) => setLastName(text)}
             />
             </View>
+            <Text style={[{color: 'red'}, {opacity: visible ? 1 : 0}, {width: 290}, {justifyContent: 'flex-start'}]}>
+            {message}
+            </Text>
             <Text style={styles.mainText}>
                 By signing up, you agree to our
                 <Text style={{ color: 'orange' }}> Terms</Text>
