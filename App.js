@@ -17,6 +17,8 @@ import {
     Login,
     Register,
     ResetPassword,
+    Settings,
+    Profile,
     getHomeStackNavigator,
     getLibraryStackNavigator,
     getSearchStackNavigator
@@ -144,6 +146,16 @@ function App() {
                     <Stack.Screen
                         name={ROUTES.RESET_PASSWORD}
                         component={ResetPassword}
+                        options={{ headerShown: false }}
+                    />
+                    <Stack.Screen
+                        name={ROUTES.SETTINGS}
+                        component={Settings}
+                        options={{ headerShown: false }}
+                    />
+                    <Stack.Screen
+                        name={ROUTES.PROFILE}
+                        component={Profile}
                         options={{ headerShown: false }}
                     />
                 </Stack.Navigator>

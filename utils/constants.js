@@ -5,6 +5,8 @@ export const ROUTES = Object.freeze({
     ERROR: 'ERROR',
     CONFIRM_EMAIL: 'CONFIRM_EMAIL',
     RESET_PASSWORD: 'RESET_PASSWORD',
+    SETTINGS: 'SETTINGS',
+    PROFILE: 'PROFILE',
 
     HOME: 'HOME',
     SEARCH: 'SEARCH',

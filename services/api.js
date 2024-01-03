@@ -3,7 +3,7 @@ import SyncStorage from 'sync-storage';
 
 const authToken = SyncStorage.get('authToken');
 const request = axios.create({
-    baseURL: 'https://11f7-1-55-15-239.ngrok-free.app/api/',
+    baseURL: 'https://42f1-1-55-15-239.ngrok-free.app/api/',
     // headers: {
     //     Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImtrMTllbGV2YW5odXlAZ21haWwuY29tIiwidXNlcklkIjoiZWI4OTEwYjktNmEzNS00ZjkwLWJkMDEtMDgwZGU2NTBhOTkzIiwiaWF0IjoxNzAzMzgyNzg0fQ.GJAYG4qtbJ6iDD_zDcxbo9TBU5SLG9eRglkoxORFLeU`
     // }

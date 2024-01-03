@@ -31,6 +31,8 @@ const Login = () => {
                 SyncStorage.set('authToken', response.data.accessToken);
                 console.log(SyncStorage.get('authToken'));
                 setVisible(false);
+                setEmail('');
+                setPassword('');
                 navigation.navigate('Root');
             } else {
                 console.log(response.status);
