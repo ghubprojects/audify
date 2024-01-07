@@ -1,23 +1,29 @@
 import { ScrollView, StyleSheet, Text, View } from 'react-native';
+import SyncStorage from 'sync-storage';
 
 import { BookList } from 'features';
 import TheHeader from 'layouts/components/TheHeader';
+
+import { useEffect, useState } from 'react';
 import { neutral } from 'styles/colors';
 import { Fonts } from 'utils/enums';
-import { useEffect, useState } from 'react';
 
-import * as bookService from 'services/book';
+import * as playlistService from 'services/playlist';
 
-const NewReleaseScreen = (route, navigation) => {
-    const [newReleaseBooks, setNewReleaseBooks] = useState([]);
+const PlaylistScreen = ({ route, navigation }) => {
+    const currentPlaylist = route.params;
+    console.log('playlist scr', currentPlaylist);
+
+    const [playlistBooks, setPlaylistBooks] = useState([]);
 
     useEffect(() => {
-        bookService
-            .getNewReleasesAsync()
-            .then((res) => setNewReleaseBooks(res.data))
-            .catch((err) => {
-                console.log('HomeScreen: bookService: newReleases', err);
-            });
+        playlistService
+            .getBooksAsync(currentPlaylist.id, SyncStorage.get('authToken'))
+            .then((res) => {
+                setPlaylistBooks(res.data[0].books);
+                console.log(res.data[0].books);
+            })
+            .catch((err) => console.log(err));
     }, []);
 
     return (
@@ -26,10 +32,10 @@ const NewReleaseScreen = (route, navigation) => {
 
             <View style={styles.mainContent}>
                 <View>
-                    <Text style={styles.pageTitle}>New Release Books</Text>
+                    <Text style={styles.pageTitle}>{currentPlaylist.name}</Text>
                 </View>
                 <BookList
-                    list={newReleaseBooks}
+                    list={playlistBooks}
                     wrapList={true}
                     wrapTitle={false}
                     showAuthor={true}
@@ -39,7 +45,7 @@ const NewReleaseScreen = (route, navigation) => {
     );
 };
 
-export default NewReleaseScreen;
+export default PlaylistScreen;
 
 const styles = StyleSheet.create({
     container: {
@@ -57,7 +63,8 @@ const styles = StyleSheet.create({
     pageTitle: {
         fontFamily: Fonts.Poppins_600SemiBold,
         fontSize: 24,
-        lineHeight: 30
+        lineHeight: 36,
+        marginBottom: 12
     },
 
     titleContainer: {

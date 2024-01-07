@@ -1,34 +1,45 @@
 import { useNavigation } from '@react-navigation/native';
+import { useEffect, useState } from 'react';
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import { useDispatch } from 'react-redux';
+import SyncStorage from 'sync-storage';
 
-import { setCurrent } from 'slices/bookSlice';
 import { primary } from 'styles/colors';
 import { ROUTES } from 'utils/constants';
 import { Fonts } from 'utils/enums';
 
-const LibraryItem = ({ book }) => {
-    const navigation = useNavigation();
-    const dispatch = useDispatch();
+import * as playlistService from 'services/playlist';
 
-    /**
-     * Xử lý khi ấn vào sách
-     * @param {object} book sách được lựa chọn
-     */
-    const handlePressBook = (book) => {
-        dispatch(setCurrent(book));
-        navigation.navigate(ROUTES.DETAIL, {
-            id: book.bookId,
-            name: book.title
+const LibraryItem = ({ playlist, reload }) => {
+    const navigation = useNavigation();
+    const [playlistBooks, setPlaylistBooks] = useState([]);
+
+    useEffect(() => {
+        playlistService
+            .getBooksAsync(playlist.playlistId, SyncStorage.get('authToken'))
+            .then((res) => setPlaylistBooks(res.data[0].books))
+            .catch((err) => console.log(err));
+    }, [reload]);
+
+    const handlePressPlaylist = (playlist) => {
+        navigation.navigate(ROUTES.PLAYLIST, {
+            id: playlist.playlistId,
+            name: playlist.name
         });
     };
 
     return (
-        <TouchableOpacity style={styles.wrapper} onPress={() => handlePressBook(book)}>
-            <Image source={{ uri: book.coverImgURL }} style={styles.poster} />
-            <View style={styles.titleAndAuthor}>
-                <Text style={styles.title}>{book.title}</Text>
-                <Text style={styles.author}>{book.author}</Text>
+        <TouchableOpacity style={styles.wrapper} onPress={() => handlePressPlaylist(playlist)}>
+            <Image
+                source={
+                    playlistBooks[playlistBooks.length - 1]
+                        ? { uri: playlistBooks[playlistBooks.length - 1].coverImgURL }
+                        : require('assets/images/playlistDefault.jpg')
+                }
+                style={styles.poster}
+            />
+            <View>
+                <Text style={styles.name}>{playlist.name}</Text>
+                <Text style={styles.book}>{playlistBooks.length} books</Text>
             </View>
         </TouchableOpacity>
     );
@@ -39,23 +50,23 @@ export default LibraryItem;
 const styles = StyleSheet.create({
     wrapper: {
         flexDirection: 'row',
+        alignItems: 'center',
         gap: 16,
-        padding: 12
+        paddingVertical: 12
     },
     poster: {
-        width: 100,
-        height: 100,
+        width: 80,
+        height: 80,
         borderRadius: 4
     },
-    titleAndAuthor: {},
-    title: {
+    name: {
         marginTop: 12,
 
         fontFamily: Fonts.Poppins_500Medium,
         fontSize: 16,
         lineHeight: 24
     },
-    author: {
+    book: {
         fontFamily: Fonts.Poppins_400Regular,
         fontSize: 12,
         lineHeight: 18,

@@ -1,9 +1,15 @@
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
+import { useNavigation } from '@react-navigation/native';
 import { LogoLight, SettingLightIcon } from 'assets/icons/light';
 import { accent, primary } from 'styles/colors';
+import { ROUTES } from 'utils/constants';
 
 const TheHeader = ({ style }) => {
+    const navigation = useNavigation();
+    const settings = () => {
+        navigation.navigate(ROUTES.SETTINGS);
+    };
     return (
         <View style={[style, styles.header]}>
             <View style={styles.appTitle}>
@@ -13,7 +19,9 @@ const TheHeader = ({ style }) => {
                     <Text style={styles.dot}>.</Text>
                 </View>
             </View>
-            <SettingLightIcon />
+            <TouchableOpacity onPress={() => settings()}>
+                <SettingLightIcon />
+            </TouchableOpacity>
         </View>
     );
 };

@@ -3,7 +3,10 @@ import { StyleSheet, TouchableOpacity } from 'react-native';
 import { Fonts } from 'utils/enums';
 
 export const getDefaultHeaderWithTitle = (route, navigation) => ({
-    title: route.params.name,
+    title:
+        route.params.name.length > 30
+            ? route.params.name.slice(0, 30) + '...'
+            : route.params.name,
     headerTitleAlign: 'center',
     headerTitleStyle: styles.title,
     headerShadowVisible: false,

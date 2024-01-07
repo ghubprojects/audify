@@ -5,16 +5,19 @@ import TheHeader from 'layouts/components/TheHeader';
 import { neutral } from 'styles/colors';
 import { Fonts } from 'utils/enums';
 import { useEffect, useState } from 'react';
+import { useRoute } from '@react-navigation/native';
 
 import * as bookService from 'services/book';
 
-const NewReleaseScreen = (route, navigation) => {
+const CategoryBookScreen = (route, navigation) => {
+    const currentRoute = useRoute();
+    const categoryName = currentRoute.params.name;
     const [newReleaseBooks, setNewReleaseBooks] = useState([]);
 
     useEffect(() => {
         bookService
-            .getNewReleasesAsync()
-            .then((res) => setNewReleaseBooks(res.data))
+            .getBestSellerAsync()
+            .then((res) => setNewReleaseBooks(res.data.reverse()))
             .catch((err) => {
                 console.log('HomeScreen: bookService: newReleases', err);
             });
@@ -26,7 +29,7 @@ const NewReleaseScreen = (route, navigation) => {
 
             <View style={styles.mainContent}>
                 <View>
-                    <Text style={styles.pageTitle}>New Release Books</Text>
+                    <Text style={styles.pageTitle}>{categoryName} Books</Text>
                 </View>
                 <BookList
                     list={newReleaseBooks}
@@ -39,7 +42,7 @@ const NewReleaseScreen = (route, navigation) => {
     );
 };
 
-export default NewReleaseScreen;
+export default CategoryBookScreen;
 
 const styles = StyleSheet.create({
     container: {

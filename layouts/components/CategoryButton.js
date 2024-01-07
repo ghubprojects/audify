@@ -1,14 +1,23 @@
 import { useEffect } from 'react';
 import { StyleSheet, Text, TouchableOpacity } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 
 import { neutral } from 'styles/colors';
+import { ROUTES } from 'utils/constants';
 
 const CategoryButton = ({ category, icon, wrapList }) => {
-    const categoryClass = wrapList ? { ...styles.wrapper, ...styles.wrapList } : styles.wrapper;
+    const navigation = useNavigation();
+
+    const categoryClass = wrapList
+        ? { ...styles.wrapper, ...styles.wrapList }
+        : styles.wrapper;
     const titleClass = icon ? { ...styles.title, ...styles.titleHasIcon } : styles.title;
 
     return (
-        <TouchableOpacity style={categoryClass}>
+        <TouchableOpacity
+            style={categoryClass}
+            onPress={() => navigation.navigate(ROUTES.CATEGORY_BOOKS, { name: category })}
+        >
             {icon}
             <Text numberOfLines={1} style={titleClass}>
                 {category}

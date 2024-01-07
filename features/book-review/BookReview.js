@@ -1,5 +1,5 @@
 import Carousel, { Pagination } from 'libs/snap-carousel';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Dimensions, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 import { accent, neutral, primary } from 'styles/colors';
@@ -7,7 +7,6 @@ import { Fonts } from 'utils/enums';
 import BookReviewItem from './BookReviewItem';
 
 const BookReview = ({ data }) => {
-    console.log(111, data);
     const [activeSlide, setActiveSlide] = useState(0);
 
     return (

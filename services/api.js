@@ -1,29 +1,42 @@
 import axios from 'axios';
 
 const request = axios.create({
-    baseURL: 'https://00c8-113-190-233-237.ngrok-free.app/api/',
-    headers: {
-        Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFkbWluQGdtYWlsLmNvbSIsInVzZXJJZCI6IjFjMDQ5M2ZjLWYwZmEtNGFjOS04ODMxLTUxMGRhYTZlYzhhZSIsImlhdCI6MTcwMjg0Njg2MH0.pyQIZIlCEQnrQIYcI1N2Vu8KzuiIaPs3jswMSmtqlMw`
-    }
+    baseURL: 'https://ff31-42-113-220-68.ngrok-free.app/api'
 });
 
-export const get = async (url, configs = {}) => {
+/**
+ * GET METHODS
+ */
+
+export const get = async (url) => {
+    const response = await request.get(url);
+    return response;
+};
+
+export const getWithParams = async (url, configs = {}) => {
     const response = await request.get(url, configs);
     return response;
 };
+
+export const getWithToken = async (url, authToken) => {
+    const response = await request.get(url, {
+        headers: authToken ? { Authorization: `Bearer ${authToken}` } : undefined
+    });
+    return response;
+};
+
+/**
+ * POST METHODS
+ */
 
 export const post = async (url, configs = {}) => {
     const response = await request.post(url, configs);
     return response;
 };
-
-export const put = async (url, configs = {}) => {
-    const response = await request.put(url, configs);
-    return response;
-};
-
-export const remove = async (url, configs = {}) => {
-    const response = await request.delete(url, configs);
+export const postWithToken = async (url, configs = {}, authToken) => {
+    const response = await request.post(url, configs, {
+        headers: authToken ? { Authorization: `Bearer ${authToken}` } : undefined
+    });
     return response;
 };
 

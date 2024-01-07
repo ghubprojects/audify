@@ -8,12 +8,12 @@ import { useEffect, useState } from 'react';
 
 import * as bookService from 'services/book';
 
-const NewReleaseScreen = (route, navigation) => {
+const TrendingNowScreen = (route, navigation) => {
     const [newReleaseBooks, setNewReleaseBooks] = useState([]);
 
     useEffect(() => {
         bookService
-            .getNewReleasesAsync()
+            .getTrendingBooksAsync()
             .then((res) => setNewReleaseBooks(res.data))
             .catch((err) => {
                 console.log('HomeScreen: bookService: newReleases', err);
@@ -26,7 +26,7 @@ const NewReleaseScreen = (route, navigation) => {
 
             <View style={styles.mainContent}>
                 <View>
-                    <Text style={styles.pageTitle}>New Release Books</Text>
+                    <Text style={styles.pageTitle}>Trending Now</Text>
                 </View>
                 <BookList
                     list={newReleaseBooks}
@@ -39,7 +39,7 @@ const NewReleaseScreen = (route, navigation) => {
     );
 };
 
-export default NewReleaseScreen;
+export default TrendingNowScreen;
 
 const styles = StyleSheet.create({
     container: {

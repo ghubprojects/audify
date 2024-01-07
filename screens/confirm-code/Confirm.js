@@ -1,15 +1,61 @@
-import React from 'react';
-import { StyleSheet, Text, View, Image, TextInput, Button } from 'react-native';
-import { LogoLight } from 'assets/icons/light';
-import { CustomLoginButton } from 'components';
-import { CustomLoginInput } from 'components';
-
-import { Fonts } from 'utils/enums';
+import { useNavigation } from '@react-navigation/native';
+import { useState } from 'react';
+import { StyleSheet, Text, View } from 'react-native';
 import Svg from 'react-native-svg';
+import SyncStorage from 'sync-storage';
 
-import Logo from '../../assets/images/logo.png';
+import { LogoLight } from 'assets/icons/light';
+import { CustomInput, CustomLoginButton } from 'components';
+import * as userService from 'services/user';
+import { ROUTES } from 'utils/constants';
+import { Fonts } from 'utils/enums';
 
 export default function Confirm() {
+    const navigation = useNavigation();
+    const [code, setCode] = useState();
+    const [visible, setVisible] = useState(false);
+    const [message, setMessage] = useState('');
+
+    const verifyCode = async () => {
+        try {
+            const response = await userService.verifyResetCode(SyncStorage.get('emailSent'), code);
+            console.log('VerifyResetCode ' + response.status);
+            if (response.status == 200) {
+                console.log(response.data);
+                SyncStorage.set('resetPassToken', response.data.accessToken);
+                setVisible(false);
+                navigation.navigate(ROUTES.RESET_PASSWORD);
+            } else {
+                console.log(response.status);
+                console.log(response.data);
+            }
+        } catch (error) {
+            console.log('Error: ', error);
+            if (error.response && error.response.status == 400) {
+                setMessage(error.response.data.message);
+                setVisible(true);
+            } else {
+                console.log('Failed to verify reset code', error);
+                setMessage(error.response.status);
+            }
+        }
+    };
+    const resendCode = async () => {
+        try {
+            const response = await userService.sendResetCode(SyncStorage.get('emailSent'));
+            console.log('Resend code ' + response.status);
+            if (response.status == 200) {
+                console.log(response.data);
+                setMessage(response.data.message);
+                setVisible(true);
+            } else {
+                console.log(response.status);
+                console.log(response.data);
+            }
+        } catch (error) {
+            console.log('Failed to login', error);
+        }
+    };
     return (
         <View style={styles.root}>
             <Svg height='200' width='200' viewBox='-5 -10 50 50'>
@@ -44,9 +90,18 @@ export default function Confirm() {
                     { marginBottom: 10 }
                 ]}
             >
-                your@mail.com.
+                {SyncStorage.get('emailSent')}.
             </Text>
-            <CustomLoginInput placeholder='Confirmation Code' />
+            <CustomInput
+                value={code}
+                onChangeText={(text) => setCode(text)}
+                placeholder='Confirmation Code'
+                width={295}
+                marginBottom={15}
+            />
+            <Text style={[{ color: 'red' }, { opacity: visible ? 1 : 0 }, { width: 295 }]}>
+                {message}
+            </Text>
             <View style={styles.row}>
                 <Text
                     style={[
@@ -58,7 +113,7 @@ export default function Confirm() {
                     Didn’t receive the code?
                 </Text>
                 <CustomLoginButton
-                    onPress={''}
+                    onPress={() => resendCode()}
                     text='Resend'
                     bgColor='#FFFFFF'
                     fgColor='#F77A55'
@@ -67,7 +122,7 @@ export default function Confirm() {
                 />
             </View>
             <CustomLoginButton
-                onPress={''}
+                onPress={() => verifyCode()}
                 text='Submit'
                 bgColor='#4838D1'
                 w={295}
@@ -75,8 +130,8 @@ export default function Confirm() {
                 pad={15}
             />
             <CustomLoginButton
-                onPress={''}
-                text='Cancel'
+                onPress={() => navigation.navigate(ROUTES.FORGET_PASSWORD)}
+                text='Back'
                 bgColor='#FFFFFF'
                 fgColor='#4838D1'
                 w={295}

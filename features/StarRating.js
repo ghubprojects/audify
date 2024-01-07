@@ -1,19 +1,33 @@
-import { StyleSheet, View } from 'react-native';
 import { StarFilledIcon, StarOutlinedIcon } from 'assets/icons';
+import { useState } from 'react';
+import { StyleSheet, TouchableOpacity, View } from 'react-native';
 
-const StarRating = ({ rating, size }) => {
-    const starRatings = Math.floor(rating);
+const StarRating = ({ rating, size, handleRate }) => {
     const maxRatings = 5;
+    const [ratingStars, setRatingStars] = useState(Math.floor(rating) ?? 0);
+
+    const handlePressStar = (starCount) => {
+        setRatingStars(starCount);
+        handleRate(starCount);
+    };
 
     const renderStars = () => {
         const stars = [];
-        for (let i = 0; i < starRatings; i++) {
-            stars.push(<StarFilledIcon key={i} size={size} />);
+        for (let i = 0; i < ratingStars; i++) {
+            stars.push(
+                <TouchableOpacity key={i} onPress={() => handlePressStar(i + 1)}>
+                    <StarFilledIcon size={size} />
+                </TouchableOpacity>
+            );
         }
 
-        if (starRatings < maxRatings)
-            for (let i = starRatings; i < maxRatings; i++) {
-                stars.push(<StarOutlinedIcon key={i} size={size} />);
+        if (ratingStars < maxRatings)
+            for (let i = ratingStars; i < maxRatings; i++) {
+                stars.push(
+                    <TouchableOpacity key={i} onPress={() => handlePressStar(i + 1)}>
+                        <StarOutlinedIcon size={size} />
+                    </TouchableOpacity>
+                );
             }
 
         return stars;
