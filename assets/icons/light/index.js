@@ -8,6 +8,8 @@ export { default as ProfileIcon } from './Profile.svg';
 
 export { default as ArrowLeftIcon } from './ArrowLeft.svg';
 export { default as MoreIcon } from './More.svg';
+export { default as PlusIcon } from './Plus.svg';
+export { default as PenIcon } from './Pen.svg';
 
 export { default as MuteIcon } from './Mute.svg';
 export { default as NextIcon } from './Next.svg';
@@ -17,6 +19,7 @@ export { default as UnmuteIcon } from './Unmute.svg';
 export { default as UploadIcon } from './Upload.svg';
 export { default as RepeatIcon } from './Repeat.svg';
 export { default as Repeat1Icon } from './Repeat1.svg';
+export { default as ListMusicIcon } from './ListMusic.svg';
 export { default as UserHeadsetIcon } from './UserHeadset.svg';
 
 export { default as BookmarkIcon } from './Bookmark.svg';

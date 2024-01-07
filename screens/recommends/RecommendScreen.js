@@ -5,15 +5,15 @@ import TheHeader from 'layouts/components/TheHeader';
 import { neutral } from 'styles/colors';
 import { Fonts } from 'utils/enums';
 import { useEffect, useState } from 'react';
-
+import SyncStorage from 'sync-storage';
 import * as bookService from 'services/book';
 
-const NewReleaseScreen = (route, navigation) => {
+const RecommendScreen = (route, navigation) => {
     const [newReleaseBooks, setNewReleaseBooks] = useState([]);
 
     useEffect(() => {
         bookService
-            .getNewReleasesAsync()
+            .getRecommendBooksAsync(SyncStorage.get('authToken'))
             .then((res) => setNewReleaseBooks(res.data))
             .catch((err) => {
                 console.log('HomeScreen: bookService: newReleases', err);
@@ -26,7 +26,7 @@ const NewReleaseScreen = (route, navigation) => {
 
             <View style={styles.mainContent}>
                 <View>
-                    <Text style={styles.pageTitle}>New Release Books</Text>
+                    <Text style={styles.pageTitle}>Recommended For You</Text>
                 </View>
                 <BookList
                     list={newReleaseBooks}
@@ -39,7 +39,7 @@ const NewReleaseScreen = (route, navigation) => {
     );
 };
 
-export default NewReleaseScreen;
+export default RecommendScreen;
 
 const styles = StyleSheet.create({
     container: {

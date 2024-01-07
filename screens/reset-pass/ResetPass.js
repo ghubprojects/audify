@@ -1,81 +1,95 @@
 import { useNavigation } from '@react-navigation/native';
 import { useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
+import Svg from 'react-native-svg';
 import SyncStorage from 'sync-storage';
 
 import { LogoLight } from 'assets/icons/light';
 import { CustomInput, CustomLoginButton } from 'components';
 import * as userService from 'services/user';
-import { neutral } from 'styles/colors';
 import { ROUTES } from 'utils/constants';
 import { Fonts } from 'utils/enums';
 
-export default function ForgetPassWord() {
+export default function ResetPass() {
+    const resetPassToken = SyncStorage.get('resetPassToken');
     const navigation = useNavigation();
-    const [email, setEmail] = useState();
+    const [password, setPassword] = useState();
     const [visible, setVisible] = useState(false);
     const [message, setMessage] = useState('');
 
-    const sendMail = async () => {
+    const resetPassword = async () => {
         try {
-            const response = await userService.sendResetCode(email);
-            console.log('ResetCode ' + response.status);
+            const response = await userService.resetPass(password, resetPassToken);
+            console.log('ResetPassword ' + response.status);
             if (response.status == 200) {
-                SyncStorage.set('emailSent', email);
                 console.log(response.data);
-                navigation.navigate(ROUTES.CONFIRM_EMAIL);
+                navigation.navigate(ROUTES.LOGIN);
             } else {
                 console.log(response.status);
                 console.log(response.data);
             }
         } catch (error) {
-            console.log('Failed to login', error);
+            console.log('Error: ', error);
             if (error.response && error.response.status == 400) {
+                console.log('Error: ', error.response.data.message);
                 setMessage(error.response.data.message);
                 setVisible(true);
             } else {
-                console.log('Failed to send reset code', error);
+                console.log('Failed to reset password', error);
                 setMessage(error.response.status);
             }
         }
     };
     return (
-        <View style={styles.container}>
-            <View style={styles.logoWrapper}>
-                <LogoLight size={120} />
-            </View>
-
+        <View style={styles.root}>
+            <Svg height='200' width='200' viewBox='-5 -10 50 50'>
+                <LogoLight />
+            </Svg>
             <Text
                 style={[
                     { fontFamily: Fonts.Poppins_600SemiBold },
                     { fontSize: 16 },
-                    { marginBottom: 16 },
+                    { marginBottom: 10 },
                     { alignSelf: 'flex-start' },
                     { marginLeft: 60 }
                 ]}
             >
-                Forget Password
+                Reset Password
             </Text>
             <Text
                 style={[
                     { width: 292 },
                     { fontFamily: Fonts.Poppins_400Regular },
-                    { fontSize: 13 },
+                    { fontSize: 14 },
                     { marginBottom: 10 }
                 ]}
             >
-                Please fill email or phone number and we will send you a code to reset your
-                password.
+                Please enter your new password for
+                <Text
+                    style={[
+                        { fontFamily: Fonts.Poppins_600SemiBold },
+                        { fontSize: 14 },
+                        { alignSelf: 'flex-start' },
+                        { marginLeft: 60 },
+                        { marginBottom: 10 }
+                    ]}
+                >
+                    {SyncStorage.get('emailSent')}
+                </Text>
+                before login again.
             </Text>
             <CustomInput
+                value={password}
+                onChangeText={(text) => setPassword(text)}
+                placeholder='New password...'
                 width={295}
-                placeholder='Fill your email...'
-                value={email}
-                onChangeText={(text) => setEmail(text)}
+                marginBottom={15}
             />
-            <Text style={[{ color: 'red' }, { opacity: visible ? 1 : 0 }]}>{message}</Text>
+            <Text style={[{ color: 'red' }, { opacity: visible ? 1 : 0 }, { width: 295 }]}>
+                {message}
+            </Text>
             <CustomLoginButton
-                onPress={() => sendMail()}
+                onPress={() => resetPassword()}
                 text='Submit'
                 bgColor='#4838D1'
                 w={295}
@@ -83,7 +97,7 @@ export default function ForgetPassWord() {
                 pad={15}
             />
             <CustomLoginButton
-                onPress={() => navigation.navigate(ROUTES.LOGIN)}
+                onPress={() => navigation.navigate(ROUTES.CONFIRM_EMAIL)}
                 text='Back'
                 bgColor='#FFFFFF'
                 fgColor='#4838D1'
@@ -97,16 +111,16 @@ export default function ForgetPassWord() {
 }
 
 const styles = StyleSheet.create({
-    container: {
-        paddingHorizontal: 50,
-        backgroundColor: neutral.white,
-        height: '100%'
+    root: {
+        alignItems: 'center',
+        backgroundColor: '#FFFFFF'
     },
-    logoWrapper: {
-        marginTop: 60,
-        marginBottom: 24
+    logo: {
+        position: 'relative',
+        marginTop: 50.4,
+        marginBottom: 20.6,
+        width: 100
     },
-
     mainText: {
         width: 300,
         height: 24,

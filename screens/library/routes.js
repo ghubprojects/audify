@@ -3,6 +3,7 @@ import { getDefaultHeaderWithTitle } from 'routes/utils/navigationOptions';
 import { ROUTES } from 'utils/constants';
 import DetailScreen from '../detail/DetailScreen';
 import LibraryScreen from './LibraryScreen';
+import PlaylistScreen from '../playlist/PlaylistScreen';
 
 const LibraryStack = createNativeStackNavigator();
 
@@ -18,6 +19,11 @@ export const getLibraryStackNavigator = () => {
                 name={ROUTES.DETAIL}
                 component={DetailScreen}
                 options={({ route, navigation }) => getDefaultHeaderWithTitle(route, navigation)}
+            />
+            <LibraryStack.Screen
+                name={ROUTES.PLAYLIST}
+                component={PlaylistScreen}
+                options={{ headerShown: false }}
             />
         </LibraryStack.Navigator>
     );

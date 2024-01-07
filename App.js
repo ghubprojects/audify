@@ -15,7 +15,10 @@ import {
     Confirm,
     ForgetPassword,
     Login,
+    Profile,
     Register,
+    ResetPassword,
+    Settings,
     getHomeStackNavigator,
     getLibraryStackNavigator,
     getSearchStackNavigator
@@ -24,10 +27,11 @@ import { store } from 'store';
 import { Fonts } from 'utils/enums';
 
 import { DocumentIcon, HomeIcon, SearchIcon } from 'assets/icons';
+import { getDefaultHeaderWithTitle } from 'routes/utils/navigationOptions';
 import PlayerScreen from 'screens/player/PlayerScreen';
 import { neutral, primary } from 'styles/colors';
 import { ROUTES } from 'utils/constants';
-import { getDefaultHeaderWithTitle } from 'routes/utils/navigationOptions';
+import CategoryBookScreen from 'screens/category-books/CategoryBookScreen';
 
 const TABS = Object.freeze({
     HOME_TAB: 'HOME_TAB',
@@ -63,7 +67,11 @@ function Root() {
                 options={{
                     tabBarLabel: ({ focused }) => getTabLabel('Home', focused),
                     tabBarIcon: ({ focused }) =>
-                        getTabIcon(focused, <HomeIcon type='Light' />, <HomeIcon type='Bold' />)
+                        getTabIcon(
+                            focused,
+                            <HomeIcon type='Light' />,
+                            <HomeIcon type='Bold' />
+                        )
                 }}
             >
                 {getHomeStackNavigator}
@@ -73,7 +81,11 @@ function Root() {
                 options={{
                     tabBarLabel: ({ focused }) => getTabLabel('Search', focused),
                     tabBarIcon: ({ focused }) =>
-                        getTabIcon(focused, <SearchIcon type='Light' />, <SearchIcon type='Bold' />)
+                        getTabIcon(
+                            focused,
+                            <SearchIcon type='Light' />,
+                            <SearchIcon type='Bold' />
+                        )
                 }}
             >
                 {getSearchStackNavigator}
@@ -112,13 +124,22 @@ function App() {
         <Provider store={store}>
             <NavigationContainer>
                 <Stack.Navigator initialRouteName={ROUTES.LOGIN}>
-                    <Stack.Screen name='Root' component={Root} options={{ headerShown: false }} />
+                    <Stack.Screen
+                        name='Root'
+                        component={Root}
+                        options={{ headerShown: false }}
+                    />
                     <Stack.Screen
                         name={ROUTES.PLAYER}
                         component={PlayerScreen}
                         options={({ route, navigation }) =>
                             getDefaultHeaderWithTitle(route, navigation)
                         }
+                    />
+                    <Stack.Screen
+                        name={ROUTES.CATEGORY_BOOKS}
+                        component={CategoryBookScreen}
+                        options={{ headerShown: false }}
                     />
                     <Stack.Screen
                         name={ROUTES.LOGIN}
@@ -138,6 +159,21 @@ function App() {
                     <Stack.Screen
                         name={ROUTES.CONFIRM_EMAIL}
                         component={Confirm}
+                        options={{ headerShown: false }}
+                    />
+                    <Stack.Screen
+                        name={ROUTES.RESET_PASSWORD}
+                        component={ResetPassword}
+                        options={{ headerShown: false }}
+                    />
+                    <Stack.Screen
+                        name={ROUTES.SETTINGS}
+                        component={Settings}
+                        options={{ headerShown: false }}
+                    />
+                    <Stack.Screen
+                        name={ROUTES.PROFILE}
+                        component={Profile}
                         options={{ headerShown: false }}
                     />
                 </Stack.Navigator>

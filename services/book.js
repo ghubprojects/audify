@@ -7,44 +7,42 @@ export const getAllAsync = async () => {
     return res;
 };
 
-export const getTop10BookRateAsync = async () => {
-    const res = await httpRequest.get(endpoint + '/getTopBookRate');
+export const getRecommendBooksAsync = async (accessToken) => {
+    const res = await httpRequest.getWithToken(endpoint + '/getRecommendBook', accessToken);
+    return res;
+};
+
+export const getBestSellerAsync = async () => {
+    const res = await httpRequest.get(endpoint + '/getBestSellerBook');
+    return res;
+};
+
+export const getRecentBooksAsync = async (accessToken) => {
+    const res = await httpRequest.getWithToken(endpoint + '/getRecentBook', accessToken);
+    return res;
+};
+
+export const getNewReleasesAsync = async () => {
+    const res = await httpRequest.get(endpoint + '/getNewestBook');
+    return res;
+};
+
+export const getTrendingBooksAsync = async () => {
+    const res = await httpRequest.get(endpoint + '/getTrendingBook');
     return res;
 };
 
 export const searchBooks = async (keyword) => {
-    const res = await httpRequest.get(endpoint + '/searchBook', {
+    const res = await httpRequest.getWithParams(endpoint + '/searchBook', {
         params: { keyword }
     });
     return res;
 };
 
-export const getFullBookInfo = async (id) => {
-    return await httpRequest.get(`${endpoint}/getFullBook/${id}`);
+export const getFullBookInfo = async (id, accessToken) => {
+    return await httpRequest.getWithToken(`${endpoint}/getFullBook/${id}`, accessToken);
 };
 
 export const getByIdAsync = async (id) => {
     return await httpRequest.get(`${endpoint}/getBook/${id}`);
-};
-
-export const addAsync = async (data) => {
-    return await httpRequest.post(endpoint, data);
-};
-
-export const updateAsync = async (data) => {
-    return await httpRequest.put(endpoint, data);
-};
-
-export const removeByIdAsync = async (id) => {
-    return await httpRequest.remove(`${endpoint}/${id}`);
-};
-
-export const removeMultipleAsync = async (ids) => {
-    return await httpRequest.remove(endpoint, {
-        data: ids
-    });
-};
-
-export const removeAllAsync = async () => {
-    return await httpRequest.remove(endpoint);
 };

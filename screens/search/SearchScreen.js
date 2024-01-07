@@ -4,10 +4,9 @@ import { BookList } from 'features';
 import { CategoryButton } from 'layouts/components';
 import TheHeader from 'layouts/components/TheHeader';
 
-import { neutral } from 'styles/colors';
-import { latestSearch, recommendedCategories, searchResults } from 'utils/homepage-data';
-import { Fonts } from 'utils/enums';
 import { useEffect, useState } from 'react';
+import { neutral } from 'styles/colors';
+import { Fonts } from 'utils/enums';
 
 import * as bookService from 'services/book';
 import * as categoryService from 'services/category';
@@ -17,15 +16,26 @@ const SearchScreen = () => {
     const [filteredBooks, setFilteredBooks] = useState([]);
     const [categories, setCategories] = useState([]);
 
-    useEffect(() => {
+    const getCategoryList = () => {
         categoryService
             .getAllAsync()
             .then((res) => setCategories(res.data.slice(0, 4)))
             .catch((err) => console.log(err));
+    };
+
+    const getSearchBooks = () => {
         bookService
             .searchBooks(searchText)
             .then((res) => setFilteredBooks(res.data))
             .catch((err) => console.log(err));
+    };
+
+    useEffect(() => {
+        getCategoryList();
+    }, []);
+
+    useEffect(() => {
+        getSearchBooks();
     }, [searchText]);
 
     return (
@@ -54,15 +64,11 @@ const SearchScreen = () => {
                             <CategoryButton
                                 key={category.categoryId}
                                 category={category.name}
-                                // icon={category.icon}
                                 wrapList={true}
                             />
                         ))}
                     </View>
                 </View>
-
-                {/* Latest Search Section */}
-                {/* <BookList title='Latest Search' list={latestSearch} /> */}
 
                 {/* Search results Section */}
                 <BookList

@@ -28,15 +28,15 @@ const BookReviewItem = ({ item, index }) => {
         <View style={styles.wrapper}>
             <View style={styles.header}>
                 <View>
-                    <Image source={require('assets/images/avatar.jpg')} style={styles.avatar} />
+                    <Image
+                        source={require('assets/images/avatar.jpg')}
+                        style={styles.avatar}
+                    />
                 </View>
                 <View style={styles.readerAndRating}>
                     <Text style={styles.reader}>{`${item.firstName} ${item.lastName}`}</Text>
                     <View style={styles.ratingDetail}>
                         <StarRating rating={item.rate} size={16} />
-                        {/* <Text style={styles.ratingDate}>
-                            {getRelativeTimeDifference(item.createdDate, new Date())}
-                        </Text> */}
                     </View>
                 </View>
             </View>

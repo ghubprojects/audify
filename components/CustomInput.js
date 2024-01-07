@@ -2,13 +2,15 @@ import { StyleSheet, TextInput } from 'react-native';
 import { neutral } from 'styles/colors';
 import { Fonts } from 'utils/enums';
 
-const CustomInput = ({ placeholder, value, style, onChangeText, ...props }) => {
+const CustomInput = ({ width, placeholder, value, style, onChangeText, onChange, ...props }) => {
     return (
         <TextInput
+            width={width}
             placeholder={placeholder}
             value={value}
             style={[style, styles.input]}
             onChangeText={onChangeText}
+            onChange={onChange}
             {...props}
         />
     );

@@ -1,16 +1,43 @@
-import React from 'react';
-import { StyleSheet, Text, View, Image, TextInput, Button } from 'react-native';
-import { LogoLight } from 'assets/icons/light';
-import { CustomLoginText } from 'components';
-import { CustomLoginButton } from 'components';
-import { CustomLoginInput } from 'components';
-
+import { useNavigation } from '@react-navigation/native';
+import { useState } from 'react';
+import { StyleSheet, Text, View } from 'react-native';
 import Svg from 'react-native-svg';
 
-import Logo from '../../assets/images/logo.png';
+import { CustomInput, CustomLoginButton } from 'components';
+import * as userService from 'services/user';
+
+import { LogoLight } from 'assets/icons/light';
+import { ROUTES } from 'utils/constants';
 import { Fonts } from 'utils/enums';
 
 export default function Register() {
+    const navigation = useNavigation();
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [firstName, setFirstName] = useState('');
+    const [lastName, setLastName] = useState('');
+    const [message, setMessage] = useState('');
+    const [visible, setVisible] = useState(false);
+
+    const register = async () => {
+        try {
+            const response = await userService.register(email, password, firstName, lastName);
+            console.log('Register ' + response.status);
+            if (response.status == 200) {
+                console.log(response.data);
+                setVisible(false);
+                navigation.navigate(ROUTES.LOGIN);
+            }
+        } catch (error) {
+            if (error.response && error.response.status == 400) {
+                setMessage(error.response.data.message);
+                console.log('Failed to register:', message);
+                setVisible(true);
+            } else {
+                console.log('Failed to register', error);
+            }
+        }
+    };
     return (
         <View style={styles.root}>
             <Svg height='200' width='200' viewBox='-5 -10 50 50'>
@@ -28,9 +55,52 @@ export default function Register() {
             >
                 Register
             </Text>
-            <CustomLoginInput placeholder='Email' />
-            <CustomLoginInput placeholder='Password' />
-            <CustomLoginInput placeholder='Date of Birth' />
+            <CustomInput
+                marginBottom={10}
+                width={295}
+                placeholder='Email'
+                value={email}
+                onChangeText={(text) => setEmail(text)}
+            />
+            <CustomInput
+                marginBottom={10}
+                width={295}
+                placeholder='Password'
+                value={password}
+                onChangeText={(text) => setPassword(text)}
+            />
+            <View
+                style={[
+                    { width: 295 },
+                    { flexDirection: 'row' },
+                    { justifyContent: 'space-between' }
+                ]}
+            >
+                <CustomInput
+                    marginBottom={10}
+                    width={140}
+                    placeholder='First Name'
+                    value={firstName}
+                    onChangeText={(text) => setFirstName(text)}
+                />
+                <CustomInput
+                    marginBottom={10}
+                    width={140}
+                    placeholder='Last Name'
+                    value={lastName}
+                    onChangeText={(text) => setLastName(text)}
+                />
+            </View>
+            <Text
+                style={[
+                    { color: 'red' },
+                    { opacity: visible ? 1 : 0 },
+                    { width: 290 },
+                    { justifyContent: 'flex-start' }
+                ]}
+            >
+                {message}
+            </Text>
             <Text style={styles.mainText}>
                 By signing up, you agree to our
                 <Text style={{ color: 'orange' }}> Terms</Text>
@@ -40,7 +110,7 @@ export default function Register() {
                 <Text style={{ color: 'orange' }}>Cookies Policy.</Text>
             </Text>
             <CustomLoginButton
-                onPress={''}
+                onPress={() => register()}
                 text='Register'
                 bgColor='#4838D1'
                 w={295}
@@ -48,7 +118,7 @@ export default function Register() {
                 pad={15}
             />
             <CustomLoginButton
-                onPress={''}
+                onPress={() => navigation.navigate(ROUTES.LOGIN)}
                 text='Cancel'
                 bgColor='#FFFFFF'
                 fgColor='#4838D1'

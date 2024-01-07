@@ -1,35 +1,103 @@
 import { useEffect, useState } from 'react';
-import { Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import {
+    Image,
+    RefreshControl,
+    ScrollView,
+    StyleSheet,
+    Text,
+    TouchableOpacity,
+    View
+} from 'react-native';
 import { useDispatch } from 'react-redux';
+import SyncStorage from 'sync-storage';
 
 import { BookList, StarRating } from 'features';
 import { CategoryButton } from 'layouts/components';
 import TheHeader from 'layouts/components/TheHeader';
 
-import { getListAll, setCurrent } from 'slices/bookSlice';
+import { setCurrent } from 'slices/bookSlice';
 import { neutral, primary } from 'styles/colors';
 import { ROUTES } from 'utils/constants';
 import { Fonts } from 'utils/enums';
-import { bestSellers, newReleases, trendings } from 'utils/homepage-data';
 
 import * as bookService from 'services/book';
 import * as categoryService from 'services/category';
 
 const HomeScreen = ({ navigation }) => {
     const dispatch = useDispatch();
+    const [refreshing, setRefreshing] = useState(false);
     const [categories, setCategories] = useState([]);
     const [recommendedBooks, setRecommendedBooks] = useState([]);
+    const [bestSellerBooks, setBestSellerBooks] = useState([]);
+    const [recentBooks, setRecentBooks] = useState([]);
+    const [newReleaseBooks, setNewReleaseBooks] = useState([]);
+    const [trendingNowBooks, setTrendingNowBooks] = useState([]);
 
-    useEffect(() => {
-        dispatch(getListAll());
+    const getCategoryList = () => {
         categoryService
             .getAllAsync()
             .then((res) => setCategories(res.data))
-            .catch((err) => console.log(err));
+            .catch((err) => {
+                console.log('HomeScreen: categoryService', err);
+            });
+    };
+
+    const getRecommendBook = () => {
         bookService
-            .getTop10BookRateAsync()
+            .getRecommendBooksAsync(SyncStorage.get('authToken'))
             .then((res) => setRecommendedBooks(res.data))
-            .catch((err) => console.log(err));
+            .catch((err) => {
+                console.log('HomeScreen: bookService: recommendBooks', err);
+            });
+    };
+
+    const getBestSellerBooks = () => {
+        bookService
+            .getBestSellerAsync()
+            .then((res) => setBestSellerBooks(res.data))
+            .catch((err) => {
+                console.log('HomeScreen: bookService: bestSellers', err);
+            });
+    };
+
+    const getRecentBooks = () => {
+        bookService
+            .getRecentBooksAsync(SyncStorage.get('authToken'))
+            .then((res) => setRecentBooks(res.data))
+            .catch((err) => {
+                console.log('HomeScreen: bookService: recentBooks', err);
+            });
+    };
+
+    const getNewReleasesBooks = () => {
+        bookService
+            .getNewReleasesAsync()
+            .then((res) => setNewReleaseBooks(res.data))
+            .catch((err) => {
+                console.log('HomeScreen: bookService: newReleases', err);
+            });
+    };
+
+    const getTrendingBooks = () => {
+        bookService
+            .getTrendingBooksAsync()
+            .then((res) => setTrendingNowBooks(res.data))
+            .catch((err) => {
+                console.log('HomeScreen: bookService: trendingNows', err);
+            });
+    };
+
+    const loadData = () => {
+        getCategoryList();
+        getRecommendBook();
+        getBestSellerBooks();
+        getRecentBooks();
+        getNewReleasesBooks();
+        getTrendingBooks();
+    };
+
+    useEffect(() => {
+        loadData();
     }, []);
 
     /**
@@ -37,16 +105,24 @@ const HomeScreen = ({ navigation }) => {
      * @param {object} book sách được lựa chọn
      */
     const handlePressBook = (book) => {
-        console.log(book);
         dispatch(setCurrent(book));
-        navigation.navigate(ROUTES.DETAIL, {
-            id: book.bookId,
-            name: book.title
-        });
+        navigation.navigate(ROUTES.DETAIL, { id: book.bookId, name: book.title });
     };
 
     return (
-        <ScrollView style={styles.container}>
+        <ScrollView
+            style={styles.container}
+            refreshControl={
+                <RefreshControl
+                    refreshing={refreshing}
+                    onRefresh={() => {
+                        setRefreshing(true);
+                        loadData();
+                        setTimeout(() => setRefreshing(false), 500);
+                    }}
+                />
+            }
+        >
             <TheHeader style={styles.header} />
 
             <View style={styles.mainContent}>
@@ -54,9 +130,9 @@ const HomeScreen = ({ navigation }) => {
                 <View>
                     <View style={styles.titleContainer}>
                         <Text style={styles.title}>Categories</Text>
-                        <TouchableOpacity>
+                        {/* <TouchableOpacity>
                             <Text style={styles.seeMore}>See more</Text>
-                        </TouchableOpacity>
+                        </TouchableOpacity> */}
                     </View>
 
                     <ScrollView horizontal contentContainerStyle={styles.contentContainer}>
@@ -74,7 +150,9 @@ const HomeScreen = ({ navigation }) => {
                 <View>
                     <View style={styles.titleContainer}>
                         <Text style={styles.title}>Recommended For You</Text>
-                        <TouchableOpacity>
+                        <TouchableOpacity
+                            onPress={() => navigation.navigate(ROUTES.RECOMMEND_BOOKS)}
+                        >
                             <Text style={styles.seeMore}>See more</Text>
                         </TouchableOpacity>
                     </View>
@@ -85,7 +163,10 @@ const HomeScreen = ({ navigation }) => {
                                 key={book.bookId}
                                 onPress={() => handlePressBook(book)}
                             >
-                                <Image source={{ uri: book.coverImgURL }} style={styles.poster} />
+                                <Image
+                                    source={{ uri: book.coverImgURL }}
+                                    style={styles.poster}
+                                />
                             </TouchableOpacity>
                         ))}
                     </ScrollView>
@@ -95,12 +176,14 @@ const HomeScreen = ({ navigation }) => {
                 <View>
                     <View style={styles.titleContainer}>
                         <Text style={styles.title}>Best Seller</Text>
-                        <TouchableOpacity>
+                        <TouchableOpacity
+                            onPress={() => navigation.navigate(ROUTES.BEST_SELLER)}
+                        >
                             <Text style={styles.seeMore}>See more</Text>
                         </TouchableOpacity>
                     </View>
                     <ScrollView horizontal contentContainerStyle={styles.contentContainer}>
-                        {recommendedBooks.map((book) => (
+                        {bestSellerBooks.map((book) => (
                             <TouchableOpacity
                                 style={styles.bestItem}
                                 key={book.bookId}
@@ -117,7 +200,9 @@ const HomeScreen = ({ navigation }) => {
                                     </View>
                                     <View style={styles.moreDetails}>
                                         <StarRating rating={book.rate} />
-                                        <Text style={styles.author}>{book.view}+ Listeners</Text>
+                                        <Text style={styles.author}>
+                                            {book.view}+ Listeners
+                                        </Text>
                                     </View>
                                 </View>
                             </TouchableOpacity>
@@ -125,15 +210,26 @@ const HomeScreen = ({ navigation }) => {
                     </ScrollView>
                 </View>
 
+                {/* Recent Books Section */}
+                <BookList
+                    title='Your Recent Books'
+                    list={recentBooks}
+                    seeMoreUrl={ROUTES.RECENT_BOOKS}
+                />
+
                 {/* New Releases Section */}
                 <BookList
                     title='New Releases'
-                    list={recommendedBooks}
+                    list={newReleaseBooks}
                     seeMoreUrl={ROUTES.NEW_RELEASE}
                 />
 
                 {/* Trending Section */}
-                <BookList title='Trending Now' list={recommendedBooks} />
+                <BookList
+                    title='Trending Now'
+                    list={trendingNowBooks}
+                    seeMoreUrl={ROUTES.TRENDING_NOW}
+                />
             </View>
         </ScrollView>
     );

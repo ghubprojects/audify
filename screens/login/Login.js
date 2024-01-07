@@ -1,15 +1,56 @@
 import { useNavigation } from '@react-navigation/native';
+import { useState } from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import SyncStorage from 'sync-storage';
 
 import { FacebookIcon, GoogleIcon, LogoLight, TwitterIcon } from 'assets/icons/light';
 import { CustomButton, CustomInput } from 'components';
+import * as userService from 'services/user';
 import { accent, neutral } from 'styles/colors';
 import { ROUTES } from 'utils/constants';
 import { Fonts } from 'utils/enums';
 
 const Login = () => {
     const navigation = useNavigation();
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [visible, setVisible] = useState(false);
+    const [message, setMessage] = useState('');
 
+    const login = async () => {
+        try {
+            const response = await userService.login(email, password);
+            console.log('Login ' + response.status);
+            if (response.status == 200) {
+                console.log(response.data.accessToken);
+                SyncStorage.set('authToken', response.data.accessToken);
+                console.log(SyncStorage.get('authToken'));
+                setVisible(false);
+                setEmail('');
+                setPassword('');
+                navigation.navigate('Root');
+            } else {
+                console.log(response.status);
+            }
+        } catch (error) {
+            console.log('Failed to login', error);
+            if (error.response && error.response.status == 400) {
+                setMessage(error.response.data.message);
+                setVisible(true);
+            } else {
+                console.log('Failed to login', error);
+                setMessage(error.response.status);
+            }
+        }
+    };
+    const forgetPassword = () => {
+        setVisible(false);
+        navigation.navigate(ROUTES.FORGET_PASSWORD);
+    };
+    const register = () => {
+        setVisible(false);
+        navigation.navigate(ROUTES.SIGN_UP);
+    };
     return (
         <View style={styles.container}>
             <View style={styles.logoWrapper}>
@@ -19,15 +60,22 @@ const Login = () => {
             <View style={styles.loginForm}>
                 <Text style={styles.formTitle}>Login to Your Account</Text>
 
-                <CustomInput placeholder='Email' onChangeText={() => {}} />
-                <CustomInput placeholder='Password' onChangeText={() => {}} />
+                <CustomInput
+                    placeholder='Email'
+                    value={email}
+                    onChangeText={(text) => setEmail(text)}
+                />
+                <CustomInput
+                    placeholder='Password'
+                    value={password}
+                    onChangeText={(text) => setPassword(text)}
+                />
 
-                <CustomButton title='Login' onPress={() => navigation.navigate('Root')} />
+                <Text style={[{ color: 'red' }, { opacity: visible ? 1 : 0 }]}>{message}</Text>
 
-                <TouchableOpacity
-                    style={styles.forgetPasswordBtn}
-                    onPress={() => navigation.navigate(ROUTES.FORGET_PASSWORD)}
-                >
+                <CustomButton title='Login' onPress={() => login()} />
+
+                <TouchableOpacity style={styles.forgetPasswordBtn} onPress={() => forgetPassword()}>
                     <Text style={styles.linkBtn}>Forget password ?</Text>
                 </TouchableOpacity>
             </View>
@@ -42,10 +90,7 @@ const Login = () => {
 
             <View style={styles.registerWrapper}>
                 <Text style={styles.registerText}>Don’t have an account ? </Text>
-                <TouchableOpacity
-                    style={styles.registerBtn}
-                    onPress={() => navigation.navigate(ROUTES.SIGN_UP)}
-                >
+                <TouchableOpacity style={styles.registerBtn} onPress={() => register()}>
                     <Text style={styles.linkBtn}>Register</Text>
                 </TouchableOpacity>
             </View>
